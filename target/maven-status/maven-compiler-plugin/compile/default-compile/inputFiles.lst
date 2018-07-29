@@ -1,0 +1,14 @@
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/src/main/java/org/robertux/financeAnalytics/FinanceAnalyticsServer/App.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/Account.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/records/UserRecord.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Keys.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/src/main/java/org/robertux/financeAnalytics/FinanceAnalyticsServer/controllers/AccountsController.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Indexes.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/DefaultCatalog.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Public.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/User.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Sequences.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/Transaction.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Tables.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/records/AccountRecord.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/target/generated-sources/jooq/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/records/TransactionRecord.java
