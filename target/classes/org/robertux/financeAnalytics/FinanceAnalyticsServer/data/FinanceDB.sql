@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5beta1
 -- Dumped by pg_dump version 10.4
 
--- Started on 2018-07-28 23:26:50 CST
+-- Started on 2018-07-29 18:23:14 CST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -60,8 +60,8 @@ ALTER TABLE public.account OWNER TO postgres;
 
 CREATE TABLE public.transaction (
     id bigint NOT NULL,
-    amount money NOT NULL,
-    date timestamp with time zone NOT NULL,
+    amount numeric(10,2) NOT NULL,
+    date time(6) with time zone NOT NULL,
     account_number bigint NOT NULL,
     reference character varying(50),
     description character varying(255),
@@ -258,7 +258,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2018-07-28 23:26:50 CST
+-- Completed on 2018-07-29 18:23:15 CST
 
 --
 -- PostgreSQL database dump complete

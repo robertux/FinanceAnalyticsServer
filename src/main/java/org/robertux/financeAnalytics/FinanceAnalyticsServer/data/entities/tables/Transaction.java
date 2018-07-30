@@ -4,7 +4,8 @@
 package org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities.tables;
 
 
-import java.time.OffsetDateTime;
+import java.math.BigDecimal;
+import java.time.OffsetTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,7 +42,7 @@ import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities.tables
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Transaction extends TableImpl<TransactionRecord> {
 
-    private static final long serialVersionUID = -1157906144;
+    private static final long serialVersionUID = 2140367677;
 
     /**
      * The reference instance of <code>public.transaction</code>
@@ -62,15 +63,14 @@ public class Transaction extends TableImpl<TransactionRecord> {
     public final TableField<TransactionRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('transaction_id_seq'::regclass)", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using <deprecationOnUnknownTypes/> in your code generator configuration.
+     * The column <code>public.transaction.amount</code>.
      */
-    @java.lang.Deprecated
-    public final TableField<TransactionRecord, Object> AMOUNT = createField("amount", org.jooq.impl.DefaultDataType.getDefaultDataType("\"pg_catalog\".\"money\"").nullable(false), this, "");
+    public final TableField<TransactionRecord, BigDecimal> AMOUNT = createField("amount", org.jooq.impl.SQLDataType.NUMERIC(10, 2).nullable(false), this, "");
 
     /**
      * The column <code>public.transaction.date</code>.
      */
-    public final TableField<TransactionRecord, OffsetDateTime> DATE = createField("date", org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "");
+    public final TableField<TransactionRecord, OffsetTime> DATE = createField("date", org.jooq.impl.SQLDataType.TIMEWITHTIMEZONE.nullable(false), this, "");
 
     /**
      * The column <code>public.transaction.account_number</code>.
