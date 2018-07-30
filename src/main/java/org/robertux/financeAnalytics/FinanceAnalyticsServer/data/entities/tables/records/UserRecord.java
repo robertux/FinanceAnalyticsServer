@@ -120,6 +120,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<Long> field1() {
         return User.USER.ID;
     }
@@ -127,6 +128,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<String> field2() {
         return User.USER.NAME;
     }
@@ -134,6 +136,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<String> field3() {
         return User.USER.PASSWORD;
     }
@@ -141,6 +144,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<String> field4() {
         return User.USER.STATUS;
     }
@@ -148,6 +152,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public Long component1() {
         return getId();
     }
@@ -155,6 +160,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public String component2() {
         return getName();
     }
@@ -162,6 +168,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public String component3() {
         return getPassword();
     }
@@ -169,6 +176,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public String component4() {
         return getStatus();
     }
@@ -176,6 +184,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public Long value1() {
         return getId();
     }
@@ -183,6 +192,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public String value2() {
         return getName();
     }
@@ -190,6 +200,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public String value3() {
         return getPassword();
     }
@@ -197,6 +208,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public String value4() {
         return getStatus();
     }
@@ -204,6 +216,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public UserRecord value1(Long value) {
         setId(value);
         return this;
@@ -212,6 +225,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public UserRecord value2(String value) {
         setName(value);
         return this;
@@ -220,6 +234,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public UserRecord value3(String value) {
         setPassword(value);
         return this;
@@ -228,6 +243,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public UserRecord value4(String value) {
         setStatus(value);
         return this;
@@ -236,6 +252,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * {@inheritDoc}
      */
+    @Override
     public UserRecord values(Long value1, String value2, String value3, String value4) {
         value1(value1);
         value2(value2);

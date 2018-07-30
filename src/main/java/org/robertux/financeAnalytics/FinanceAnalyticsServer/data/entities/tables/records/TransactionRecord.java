@@ -165,6 +165,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<Long> field1() {
         return Transaction.TRANSACTION.ID;
     }
@@ -172,6 +173,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<BigDecimal> field2() {
         return Transaction.TRANSACTION.AMOUNT;
     }
@@ -179,6 +181,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<OffsetTime> field3() {
         return Transaction.TRANSACTION.DATE;
     }
@@ -186,6 +189,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<Long> field4() {
         return Transaction.TRANSACTION.ACCOUNT_NUMBER;
     }
@@ -193,6 +197,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<String> field5() {
         return Transaction.TRANSACTION.REFERENCE;
     }
@@ -200,6 +205,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<String> field6() {
         return Transaction.TRANSACTION.DESCRIPTION;
     }
@@ -207,6 +213,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<String> field7() {
         return Transaction.TRANSACTION.CATEGORY_NAME;
     }
@@ -214,6 +221,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Long component1() {
         return getId();
     }
@@ -221,6 +229,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public BigDecimal component2() {
         return getAmount();
     }
@@ -228,6 +237,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public OffsetTime component3() {
         return getDate();
     }
@@ -235,6 +245,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Long component4() {
         return getAccountNumber();
     }
@@ -242,6 +253,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public String component5() {
         return getReference();
     }
@@ -249,6 +261,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public String component6() {
         return getDescription();
     }
@@ -256,6 +269,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public String component7() {
         return getCategoryName();
     }
@@ -263,6 +277,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Long value1() {
         return getId();
     }
@@ -270,6 +285,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public BigDecimal value2() {
         return getAmount();
     }
@@ -277,6 +293,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public OffsetTime value3() {
         return getDate();
     }
@@ -284,6 +301,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public Long value4() {
         return getAccountNumber();
     }
@@ -291,6 +309,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public String value5() {
         return getReference();
     }
@@ -298,6 +317,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public String value6() {
         return getDescription();
     }
@@ -305,6 +325,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public String value7() {
         return getCategoryName();
     }
@@ -312,6 +333,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public TransactionRecord value1(Long value) {
         setId(value);
         return this;
@@ -320,6 +342,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public TransactionRecord value2(BigDecimal value) {
         setAmount(value);
         return this;
@@ -328,6 +351,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public TransactionRecord value3(OffsetTime value) {
         setDate(value);
         return this;
@@ -336,6 +360,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public TransactionRecord value4(Long value) {
         setAccountNumber(value);
         return this;
@@ -344,6 +369,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public TransactionRecord value5(String value) {
         setReference(value);
         return this;
@@ -352,6 +378,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public TransactionRecord value6(String value) {
         setDescription(value);
         return this;
@@ -360,6 +387,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public TransactionRecord value7(String value) {
         setCategoryName(value);
         return this;
@@ -368,6 +396,7 @@ public class TransactionRecord extends UpdatableRecordImpl<TransactionRecord> im
     /**
      * {@inheritDoc}
      */
+    @Override
     public TransactionRecord values(Long value1, BigDecimal value2, OffsetTime value3, Long value4, String value5, String value6, String value7) {
         value1(value1);
         value2(value2);

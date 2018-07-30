@@ -10,5 +10,6 @@
 /Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/src/main/java/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/records/TransactionRecord.java
 /Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/src/main/java/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/records/UserRecord.java
 /Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/src/main/java/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Tables.java
+/Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/src/main/java/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/DataSourceConfigurator.java
 /Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/src/main/java/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/Transaction.java
 /Users/robertux/Documents/Projects/FinanceAnalytics/FinanceAnalyticsServer/src/main/java/org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Indexes.java

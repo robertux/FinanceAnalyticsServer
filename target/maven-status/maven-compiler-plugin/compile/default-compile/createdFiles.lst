@@ -7,6 +7,8 @@ org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/Accoun
 org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/records/AccountRecord.class
 org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Keys$UniqueKeys0.class
 org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Public.class
+org/robertux/financeAnalytics/FinanceAnalyticsServer/controllers/AccountsController.class
+org/robertux/financeAnalytics/FinanceAnalyticsServer/App.class
 org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Indexes.class
 org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/tables/records/UserRecord.class
 org/robertux/financeAnalytics/FinanceAnalyticsServer/data/entities/Tables.class

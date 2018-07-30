@@ -120,6 +120,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<Long> field1() {
         return Account.ACCOUNT.NUMBER;
     }
@@ -127,6 +128,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<String> field2() {
         return Account.ACCOUNT.ALIAS;
     }
@@ -134,6 +136,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<Integer> field3() {
         return Account.ACCOUNT.TYPE;
     }
@@ -141,6 +144,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public Field<Long> field4() {
         return Account.ACCOUNT.USER_ID;
     }
@@ -148,6 +152,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public Long component1() {
         return getNumber();
     }
@@ -155,6 +160,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public String component2() {
         return getAlias();
     }
@@ -162,6 +168,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public Integer component3() {
         return getType();
     }
@@ -169,6 +176,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public Long component4() {
         return getUserId();
     }
@@ -176,6 +184,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public Long value1() {
         return getNumber();
     }
@@ -183,6 +192,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public String value2() {
         return getAlias();
     }
@@ -190,6 +200,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public Integer value3() {
         return getType();
     }
@@ -197,6 +208,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public Long value4() {
         return getUserId();
     }
@@ -204,6 +216,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public AccountRecord value1(Long value) {
         setNumber(value);
         return this;
@@ -212,6 +225,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public AccountRecord value2(String value) {
         setAlias(value);
         return this;
@@ -220,6 +234,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public AccountRecord value3(Integer value) {
         setType(value);
         return this;
@@ -228,6 +243,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public AccountRecord value4(Long value) {
         setUserId(value);
         return this;
@@ -236,6 +252,7 @@ public class AccountRecord extends UpdatableRecordImpl<AccountRecord> implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public AccountRecord values(Long value1, String value2, Integer value3, Long value4) {
         value1(value1);
         value2(value2);
