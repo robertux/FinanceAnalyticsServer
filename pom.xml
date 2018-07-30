@@ -5,7 +5,7 @@
 
 	<groupId>org.robertux.financeAnalytics</groupId>
 	<artifactId>FinanceAnalyticsServer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>FinanceAnalyticsServer</name>
@@ -16,6 +16,18 @@
 	</properties>
 
 	<dependencies>
+		<!-- Log4j2 -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+
 		<!-- junit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -63,6 +75,8 @@
 
 	<build>
 		<plugins>
+
+			<!-- JOOQ Codegen -->
 			<plugin>
 				<groupId>org.jooq</groupId>
 				<artifactId>jooq-codegen-maven</artifactId>
@@ -105,6 +119,29 @@
 						</target>
 					</generator>
 				</configuration>
+			</plugin>
+
+			<!-- Generate JAR with dependencies -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>org.robertux.financeAnalytics.FinanceAnalyticsServer.App</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
