@@ -16,7 +16,6 @@ public class App {
 		System.setProperty("log4j.configurationFile", args[0]);
 		System.setProperty(DataSourceConfigurator.CONF_FILE_PROP, args[1]);
 		
-		
 //		URI baseUri = UriBuilder.fromUri("http://localhost/").port(9998).build();
 //		ResourceConfig config = new ResourceConfig(AccountsController.class);
 //		Server server = JettyHttpContainerFactory.createServer(baseUri, config);
