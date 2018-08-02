@@ -2,11 +2,10 @@ package org.robertux.financeAnalytics.FinanceAnalyticsServer;
 
 import org.apache.logging.log4j.LogManager;
 import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.DataSourceConfigurator;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * Main app
- *
- */
+@SpringBootApplication
 public class App {
 	public static void main(String[] args) throws Exception {
 		if (args.length < 2) {
@@ -16,9 +15,6 @@ public class App {
 		System.setProperty("log4j.configurationFile", args[0]);
 		System.setProperty(DataSourceConfigurator.CONF_FILE_PROP, args[1]);
 		
-//		URI baseUri = UriBuilder.fromUri("http://localhost/").port(9998).build();
-//		ResourceConfig config = new ResourceConfig(AccountsController.class);
-//		Server server = JettyHttpContainerFactory.createServer(baseUri, config);
-//		server.start();
+		SpringApplication.run(App.class, args);
 	}
 }
