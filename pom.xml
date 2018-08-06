@@ -50,23 +50,6 @@
 			<version>42.2.2</version>
 		</dependency>
 
-		<!-- JOOQ -->
-		<dependency>
-			<groupId>org.jooq</groupId>
-			<artifactId>jooq</artifactId>
-			<version>3.11.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jooq</groupId>
-			<artifactId>jooq-meta</artifactId>
-			<version>3.11.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jooq</groupId>
-			<artifactId>jooq-codegen</artifactId>
-			<version>3.11.3</version>
-		</dependency>
-
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -78,6 +61,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<scope>test</scope>
@@ -86,12 +73,12 @@
 
 	<build>
 		<plugins>
-		
+
 			<!-- Spring Boot -->
 			<plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
 
 			<!-- Java Compiler -->
 			<plugin>
@@ -104,64 +91,19 @@
 				</configuration>
 			</plugin>
 
-			<!-- JOOQ Codegen -->
-			<plugin>
-				<groupId>org.jooq</groupId>
-				<artifactId>jooq-codegen-maven</artifactId>
-				<version>3.11.3</version>
-
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-
-				<dependencies>
-					<dependency>
-						<groupId>org.postgresql</groupId>
-						<artifactId>postgresql</artifactId>
-						<version>9.4.1212</version>
-					</dependency>
-				</dependencies>
-
-				<configuration>
-					<jdbc>
-						<driver>${finance.db.driver}</driver>
-						<url>${finance.db.url}</url>
-						<user>${finance.db.user}</user>
-						<password>${finance.db.password}</password>
-					</jdbc>
-
-					<generator>
-						<database>
-							<name>org.jooq.meta.postgres.PostgresDatabase</name>
-							<includes>.*</includes>
-							<excludes></excludes>
-							<inputSchema>public</inputSchema>
-						</database>
-						<target>
-							<packageName>org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities</packageName>
-							<directory>src/main/java</directory>
-						</target>
-					</generator>
-				</configuration>
-			</plugin>
-
 		</plugins>
 	</build>
-	
+
 	<repositories>
-        <repository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </pluginRepository>
-    </pluginRepositories>
+		<repository>
+			<id>spring-releases</id>
+			<url>https://repo.spring.io/libs-release</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-releases</id>
+			<url>https://repo.spring.io/libs-release</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
