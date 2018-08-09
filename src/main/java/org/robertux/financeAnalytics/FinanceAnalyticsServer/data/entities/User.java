@@ -2,6 +2,9 @@ package org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 
@@ -24,6 +27,7 @@ public class User implements Serializable {
 
 	private String status;
 
+	@JsonIgnore
 	//bi-directional many-to-one association to Account
 	@OneToMany(mappedBy="user")
 	private List<Account> accounts;

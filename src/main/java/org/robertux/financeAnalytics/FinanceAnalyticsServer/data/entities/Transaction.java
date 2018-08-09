@@ -2,6 +2,9 @@ package org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 import java.sql.Time;
 
@@ -30,6 +33,7 @@ public class Transaction implements Serializable {
 
 	private String reference;
 
+	@JsonIgnore
 	//bi-directional many-to-one association to Account
 	@ManyToOne
 	private Account account;

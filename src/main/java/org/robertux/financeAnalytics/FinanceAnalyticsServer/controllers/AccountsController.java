@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController("/users/{userId}/accounts")
 public class AccountsController {
 	
 	@Autowired
 	private AccountsRepository accRepo;
 
-	@GetMapping("/users/{userId}/accounts")
+	@GetMapping()
 	public ResponseEntity<List<Account>> getAccounts(@PathVariable("userId") long userId) {
 		return ResponseEntity.ok(accRepo.findAllByUserId(userId));
 	}
 	
-	@PutMapping("/users/{userId}/accounts")
+	@PutMapping()
 	public ResponseEntity<?> addAccount(@RequestBody Account acc) {
 		if (accRepo.findById(acc.getNumber()).isPresent()) {
 			return ResponseEntity.badRequest().body("Ya existe una cuenta con este número");
@@ -35,7 +35,7 @@ public class AccountsController {
 		}
 	}
 	
-	@PostMapping("/users/{userId}/accounts")
+	@PostMapping()
 	public ResponseEntity<?> editAccount(@RequestBody Account acc) {
 		if (accRepo.findById(acc.getNumber()).isPresent()) {
 			Account newAcc = accRepo.save(acc);
@@ -45,7 +45,7 @@ public class AccountsController {
 		}
 	}
 	
-	@DeleteMapping("/users/{userId}/accounts")
+	@DeleteMapping()
 	public ResponseEntity<?> deleteAccount(@RequestBody Account acc) {
 		if (accRepo.findById(acc.getNumber()).isPresent()) {
 			accRepo.delete(acc);
