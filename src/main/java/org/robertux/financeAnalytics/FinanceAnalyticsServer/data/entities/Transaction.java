@@ -1,12 +1,19 @@
 package org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.Time;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.math.BigDecimal;
-import java.sql.Time;
 
 
 /**
@@ -14,9 +21,10 @@ import java.sql.Time;
  * 
  */
 @Entity
-@NamedQuery(name="Transaction.findAll", query="SELECT t FROM Transaction t")
 public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String CATEGORY_DEFAULT = "DEFAULT";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -54,7 +62,8 @@ public class Transaction implements Serializable {
 	}
 
 	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
+		//Se asegura que los montos de las transacciones sean de dos decimales
+		this.amount = amount.setScale(2, RoundingMode.HALF_EVEN);
 	}
 
 	public String getCategoryName() {
@@ -62,7 +71,8 @@ public class Transaction implements Serializable {
 	}
 
 	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
+		//Se asegura que si la categoría viene vacía, se asigne una por defecto
+		this.categoryName = (categoryName == null || categoryName.trim().isEmpty()? CATEGORY_DEFAULT: categoryName);
 	}
 
 	public Time getDate() {
@@ -70,7 +80,8 @@ public class Transaction implements Serializable {
 	}
 
 	public void setDate(Time date) {
-		this.date = date;
+		//Se asegura que si la fecha viene vacía, se asigne la fecha y hora actual
+		this.date = date == null? new Time(new Date().getTime()): date;
 	}
 
 	public String getDescription() {

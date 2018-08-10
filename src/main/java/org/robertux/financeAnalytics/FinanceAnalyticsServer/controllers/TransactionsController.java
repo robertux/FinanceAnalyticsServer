@@ -3,6 +3,7 @@ package org.robertux.financeAnalytics.FinanceAnalyticsServer.controllers;
 import java.util.List;
 
 import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities.Transaction;
+import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.repositories.AccountsRepository;
 import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.repositories.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,9 @@ public class TransactionsController {
 
 	@Autowired
 	private TransactionsRepository trnRepo;
+	
+	@Autowired
+	private AccountsRepository accRepo;
 
 	@GetMapping()
 	public ResponseEntity<List<Transaction>> getTransactions(@PathVariable("accNumber") long accountNumber) {
@@ -26,18 +30,16 @@ public class TransactionsController {
 	}
 	
 	@PutMapping()
-	public ResponseEntity<?> addTransaction(@RequestBody Transaction trn) {
-		if (trnRepo.findById(trn.getId()).isPresent()) {
-			return ResponseEntity.badRequest().body("Ya existe una transacción con este número");
-		} else {
-			Transaction newTrn = trnRepo.save(trn);
-			return ResponseEntity.ok(newTrn);
-		}
+	public ResponseEntity<?> addTransaction(@RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber) {
+		trn.setAccount(accRepo.findById(accountNumber).get());
+		Transaction newTrn = trnRepo.save(trn);
+		return ResponseEntity.ok(newTrn);
 	}
 	
 	@PostMapping()
-	public ResponseEntity<?> editTransaction(@RequestBody Transaction trn) {
+	public ResponseEntity<?> editTransaction(@RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber) {
 		if (trnRepo.findById(trn.getId()).isPresent()) {
+			trn.setAccount(accRepo.findById(accountNumber).get());
 			Transaction newTrn = trnRepo.save(trn);
 			return ResponseEntity.ok(newTrn);
 		} else {
