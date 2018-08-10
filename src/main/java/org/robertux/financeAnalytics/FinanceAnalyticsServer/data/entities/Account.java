@@ -3,6 +3,8 @@ package org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.AccountTypes;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
@@ -18,7 +20,6 @@ public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long number;
 
 	private String alias;
@@ -43,7 +44,8 @@ public class Account implements Serializable {
 	}
 
 	public void setNumber(Long number) {
-		this.number = number;
+		//Se asegura que el número de cuenta sea siempre positivo
+		this.number = Math.abs(number);
 	}
 
 	public String getAlias() {
@@ -59,7 +61,8 @@ public class Account implements Serializable {
 	}
 
 	public void setType(Integer type) {
-		this.type = type;
+		//Se asegura que el tipo asignado corresponda con uno de los tipos de cuenta válidos
+		this.type = AccountTypes.get(type).getCode();
 	}
 
 	public User getUser() {

@@ -2,8 +2,10 @@ package org.robertux.financeAnalytics.FinanceAnalyticsServer.controllers;
 
 import java.util.List;
 
+import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.AccountTypes;
 import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities.Account;
 import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.repositories.AccountsRepository;
+import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,25 +21,35 @@ public class AccountsController {
 	
 	@Autowired
 	private AccountsRepository accRepo;
+	
+	@Autowired
+	private UsersRepository userRepo;
 
 	@GetMapping()
 	public ResponseEntity<List<Account>> getAccounts(@PathVariable("userId") long userId) {
 		return ResponseEntity.ok(accRepo.findAllByUserId(userId));
 	}
 	
+	@GetMapping("/types")
+	public ResponseEntity<List<String>> getAccountTypes() {
+		return ResponseEntity.ok(AccountTypes.listNames());
+	}
+	
 	@PutMapping()
-	public ResponseEntity<?> addAccount(@RequestBody Account acc) {
+	public ResponseEntity<?> addAccount(@RequestBody Account acc, @PathVariable("userId") long userId) {
 		if (accRepo.findById(acc.getNumber()).isPresent()) {
 			return ResponseEntity.badRequest().body("Ya existe una cuenta con este número");
 		} else {
+			acc.setUser(userRepo.findById(userId).get());
 			Account newAcc = accRepo.save(acc);
 			return ResponseEntity.ok(newAcc);
 		}
 	}
 	
 	@PostMapping()
-	public ResponseEntity<?> editAccount(@RequestBody Account acc) {
+	public ResponseEntity<?> editAccount(@RequestBody Account acc, @PathVariable("userId") long userId) {
 		if (accRepo.findById(acc.getNumber()).isPresent()) {
+			acc.setUser(userRepo.findById(userId).get());
 			Account newAcc = accRepo.save(acc);
 			return ResponseEntity.ok(newAcc);
 		} else {
