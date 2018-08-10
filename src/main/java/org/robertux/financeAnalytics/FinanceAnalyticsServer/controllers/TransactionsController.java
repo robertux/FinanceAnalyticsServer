@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/users/{userId}/accounts/{accNumber}/transactions")
+@RestController
+@RequestMapping("/users/{userId}/accounts/{accNumber}/transactions")
 public class TransactionsController {
 
 	@Autowired
@@ -24,19 +26,19 @@ public class TransactionsController {
 	@Autowired
 	private AccountsRepository accRepo;
 
-	@GetMapping()
+	@GetMapping
 	public ResponseEntity<List<Transaction>> getTransactions(@PathVariable("accNumber") long accountNumber) {
 		return ResponseEntity.ok(trnRepo.findAllByAccountNum(accountNumber));
 	}
 	
-	@PutMapping()
+	@PutMapping
 	public ResponseEntity<?> addTransaction(@RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber) {
 		trn.setAccount(accRepo.findById(accountNumber).get());
 		Transaction newTrn = trnRepo.save(trn);
 		return ResponseEntity.ok(newTrn);
 	}
 	
-	@PostMapping()
+	@PostMapping
 	public ResponseEntity<?> editTransaction(@RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber) {
 		if (trnRepo.findById(trn.getId()).isPresent()) {
 			trn.setAccount(accRepo.findById(accountNumber).get());
@@ -47,7 +49,7 @@ public class TransactionsController {
 		}
 	}
 	
-	@DeleteMapping()
+	@DeleteMapping
 	public ResponseEntity<?> deleteTransaction(@RequestBody Transaction trn) {
 		if (trnRepo.findById(trn.getId()).isPresent()) {
 			trnRepo.delete(trn);
