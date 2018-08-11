@@ -19,7 +19,7 @@ SET row_security = off;
 
 --
 -- TOC entry 1 (class 3079 OID 12623)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
@@ -28,7 +28,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 --
 -- TOC entry 2395 (class 0 OID 0)
 -- Dependencies: 1
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -43,7 +43,7 @@ SET default_with_oids = false;
 -- Name: account; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.account (
+CREATE TABLE public.accounts (
     number bigint NOT NULL,
     alias character varying(50),
     type integer NOT NULL,
@@ -51,14 +51,14 @@ CREATE TABLE public.account (
 );
 
 
-ALTER TABLE public.account OWNER TO postgres;
+ALTER TABLE public.accounts OWNER TO postgres;
 
 --
 -- TOC entry 185 (class 1259 OID 57409)
 -- Name: transaction; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.transaction (
+CREATE TABLE public.transactions (
     id bigint NOT NULL,
     amount numeric(10,2) NOT NULL,
     date time(6) with time zone NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE public.transaction (
 );
 
 
-ALTER TABLE public.transaction OWNER TO postgres;
+ALTER TABLE public.transactions OWNER TO postgres;
 
 --
 -- TOC entry 184 (class 1259 OID 57407)
@@ -100,7 +100,7 @@ ALTER SEQUENCE public.transaction_id_seq OWNED BY public.transaction.id;
 -- Name: user; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."user" (
+CREATE TABLE public.users (
     id bigint NOT NULL,
     name character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE public."user" (
 );
 
 
-ALTER TABLE public."user" OWNER TO postgres;
+ALTER TABLE public.users OWNER TO postgres;
 
 --
 -- TOC entry 181 (class 1259 OID 57388)
@@ -139,7 +139,7 @@ ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
 -- Name: transaction id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.transaction ALTER COLUMN id SET DEFAULT nextval('public.transaction_id_seq'::regclass);
+ALTER TABLE ONLY public.transactions ALTER COLUMN id SET DEFAULT nextval('public.transaction_id_seq'::regclass);
 
 
 --
@@ -147,7 +147,7 @@ ALTER TABLE ONLY public.transaction ALTER COLUMN id SET DEFAULT nextval('public.
 -- Name: user id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
 
 
 --
@@ -156,7 +156,7 @@ ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_
 -- Data for Name: account; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.account (number, alias, type, user_id) FROM stdin;
+COPY public.accounts (number, alias, type, user_id) FROM stdin;
 \.
 
 
@@ -166,7 +166,7 @@ COPY public.account (number, alias, type, user_id) FROM stdin;
 -- Data for Name: transaction; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.transaction (id, amount, date, account_number, reference, description, category_name) FROM stdin;
+COPY public.transactions (id, amount, date, account_number, reference, description, category_name) FROM stdin;
 \.
 
 
@@ -176,7 +176,7 @@ COPY public.transaction (id, amount, date, account_number, reference, descriptio
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."user" (id, name, password, status) FROM stdin;
+COPY public.users (id, name, password, status) FROM stdin;
 4	user	prueba	A
 3	robertux	prueba123	A
 2	admin	Prueba123!	A
@@ -206,7 +206,7 @@ SELECT pg_catalog.setval('public.user_id_seq', 4, true);
 -- Name: account account_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.account
+ALTER TABLE ONLY public.accounts
     ADD CONSTRAINT account_pkey PRIMARY KEY (number);
 
 
@@ -215,7 +215,7 @@ ALTER TABLE ONLY public.account
 -- Name: user customer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."user"
+ALTER TABLE ONLY public.users
     ADD CONSTRAINT customer_pkey PRIMARY KEY (id);
 
 
@@ -224,7 +224,7 @@ ALTER TABLE ONLY public."user"
 -- Name: transaction transaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.transaction
+ALTER TABLE ONLY public.transactions
     ADD CONSTRAINT transaction_pkey PRIMARY KEY (id);
 
 
@@ -233,7 +233,7 @@ ALTER TABLE ONLY public.transaction
 -- Name: account fk_account_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.account
+ALTER TABLE ONLY public.accounts
     ADD CONSTRAINT fk_account_user_id FOREIGN KEY (user_id) REFERENCES public."user"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
@@ -242,7 +242,7 @@ ALTER TABLE ONLY public.account
 -- Name: transaction fk_transaction_account_number; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.transaction
+ALTER TABLE ONLY public.transactions
     ADD CONSTRAINT fk_transaction_account_number FOREIGN KEY (account_number) REFERENCES public.account(number) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
