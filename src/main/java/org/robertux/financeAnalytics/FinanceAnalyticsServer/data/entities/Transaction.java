@@ -3,7 +3,6 @@ package org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -19,13 +18,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * The persistent class for the transaction database table.
- * 
+ *
  */
 @Entity
 @Table(name="transactions")
 public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String CATEGORY_DEFAULT = "DEFAULT";
 
 	@Id
@@ -37,7 +36,8 @@ public class Transaction implements Serializable {
 	@Column(name="category_name")
 	private String categoryName;
 
-	private Time date;
+	@Column(name="date_time")
+	private Date date;
 
 	private String description;
 
@@ -77,13 +77,13 @@ public class Transaction implements Serializable {
 		this.categoryName = (categoryName == null || categoryName.trim().isEmpty()? CATEGORY_DEFAULT: categoryName);
 	}
 
-	public Time getDate() {
+	public Date getDate() {
 		return this.date;
 	}
 
-	public void setDate(Time date) {
+	public void setDate(Date date) {
 		//Se asegura que si la fecha viene vacía, se asigne la fecha y hora actual
-		this.date = date == null? new Time(new Date().getTime()): date;
+		this.date = date == null? new Date(): date;
 	}
 
 	public String getDescription() {

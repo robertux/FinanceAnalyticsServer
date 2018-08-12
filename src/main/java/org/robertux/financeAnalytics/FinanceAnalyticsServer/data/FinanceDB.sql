@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5beta1
 -- Dumped by pg_dump version 10.4
 
--- Started on 2018-07-29 18:23:14 CST
+-- Started on 2018-08-11 18:15:32 CST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,16 +19,16 @@ SET row_security = off;
 
 --
 -- TOC entry 1 (class 3079 OID 12623)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2395 (class 0 OID 0)
+-- TOC entry 2397 (class 0 OID 0)
 -- Dependencies: 1
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -40,7 +40,7 @@ SET default_with_oids = false;
 
 --
 -- TOC entry 183 (class 1259 OID 57401)
--- Name: account; Type: TABLE; Schema: public; Owner: postgres
+-- Name: accounts; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.accounts (
@@ -55,17 +55,17 @@ ALTER TABLE public.accounts OWNER TO postgres;
 
 --
 -- TOC entry 185 (class 1259 OID 57409)
--- Name: transaction; Type: TABLE; Schema: public; Owner: postgres
+-- Name: transactions; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.transactions (
     id bigint NOT NULL,
     amount numeric(10,2) NOT NULL,
-    date time(6) with time zone NOT NULL,
     account_number bigint NOT NULL,
     reference character varying(50),
     description character varying(255),
-    category_name character varying(20)
+    category_name character varying(20) DEFAULT 'GENERAL'::character varying,
+    date_time timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
@@ -87,17 +87,17 @@ CREATE SEQUENCE public.transaction_id_seq
 ALTER TABLE public.transaction_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2396 (class 0 OID 0)
+-- TOC entry 2398 (class 0 OID 0)
 -- Dependencies: 184
 -- Name: transaction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.transaction_id_seq OWNED BY public.transaction.id;
+ALTER SEQUENCE public.transaction_id_seq OWNED BY public.transactions.id;
 
 
 --
 -- TOC entry 182 (class 1259 OID 57390)
--- Name: user; Type: TABLE; Schema: public; Owner: postgres
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.users (
@@ -126,17 +126,17 @@ CREATE SEQUENCE public.user_id_seq
 ALTER TABLE public.user_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2397 (class 0 OID 0)
+-- TOC entry 2399 (class 0 OID 0)
 -- Dependencies: 181
 -- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
+ALTER SEQUENCE public.user_id_seq OWNED BY public.users.id;
 
 
 --
 -- TOC entry 2259 (class 2604 OID 65695)
--- Name: transaction id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: transactions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.transactions ALTER COLUMN id SET DEFAULT nextval('public.transaction_id_seq'::regclass);
@@ -144,66 +144,72 @@ ALTER TABLE ONLY public.transactions ALTER COLUMN id SET DEFAULT nextval('public
 
 --
 -- TOC entry 2258 (class 2604 OID 65715)
--- Name: user id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
 
 
 --
--- TOC entry 2384 (class 0 OID 57401)
+-- TOC entry 2386 (class 0 OID 57401)
 -- Dependencies: 183
--- Data for Name: account; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.accounts (number, alias, type, user_id) FROM stdin;
+5540241215	Cta personal	1	2
+2540610900	Cta Presupuestos	1	2
+4550040600463261	Tarjeta principal	4	2
+1	Efectivo	5	2
 \.
 
 
 --
--- TOC entry 2386 (class 0 OID 57409)
+-- TOC entry 2388 (class 0 OID 57409)
 -- Dependencies: 185
--- Data for Name: transaction; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: transactions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.transactions (id, amount, date, account_number, reference, description, category_name) FROM stdin;
+COPY public.transactions (id, amount, account_number, reference, description, category_name, date_time) FROM stdin;
 \.
 
 
 --
--- TOC entry 2383 (class 0 OID 57390)
+-- TOC entry 2385 (class 0 OID 57390)
 -- Dependencies: 182
--- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.users (id, name, password, status) FROM stdin;
 4	user	prueba	A
 3	robertux	prueba123	A
 2	admin	Prueba123!	A
+9	foobar	password	I
+11	foo2	bar2	A
 \.
 
 
 --
--- TOC entry 2398 (class 0 OID 0)
+-- TOC entry 2400 (class 0 OID 0)
 -- Dependencies: 184
 -- Name: transaction_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.transaction_id_seq', 1, false);
+SELECT pg_catalog.setval('public.transaction_id_seq', 8, true);
 
 
 --
--- TOC entry 2399 (class 0 OID 0)
+-- TOC entry 2401 (class 0 OID 0)
 -- Dependencies: 181
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user_id_seq', 4, true);
+SELECT pg_catalog.setval('public.user_id_seq', 12, true);
 
 
 --
--- TOC entry 2263 (class 2606 OID 65647)
--- Name: account account_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2265 (class 2606 OID 65647)
+-- Name: accounts account_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.accounts
@@ -211,8 +217,8 @@ ALTER TABLE ONLY public.accounts
 
 
 --
--- TOC entry 2261 (class 2606 OID 65717)
--- Name: user customer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2263 (class 2606 OID 65717)
+-- Name: users customer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users
@@ -220,8 +226,8 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2265 (class 2606 OID 65697)
--- Name: transaction transaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2267 (class 2606 OID 65697)
+-- Name: transactions transaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.transactions
@@ -229,25 +235,25 @@ ALTER TABLE ONLY public.transactions
 
 
 --
--- TOC entry 2266 (class 2606 OID 65735)
--- Name: account fk_account_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2268 (class 2606 OID 65735)
+-- Name: accounts fk_account_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.accounts
-    ADD CONSTRAINT fk_account_user_id FOREIGN KEY (user_id) REFERENCES public."user"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_account_user_id FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --
--- TOC entry 2267 (class 2606 OID 65648)
--- Name: transaction fk_transaction_account_number; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2269 (class 2606 OID 65648)
+-- Name: transactions fk_transaction_account_number; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.transactions
-    ADD CONSTRAINT fk_transaction_account_number FOREIGN KEY (account_number) REFERENCES public.account(number) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_transaction_account_number FOREIGN KEY (account_number) REFERENCES public.accounts(number) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --
--- TOC entry 2394 (class 0 OID 0)
+-- TOC entry 2396 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -258,7 +264,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2018-07-29 18:23:15 CST
+-- Completed on 2018-08-11 18:15:33 CST
 
 --
 -- PostgreSQL database dump complete
