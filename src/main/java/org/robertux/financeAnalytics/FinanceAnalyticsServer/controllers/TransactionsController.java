@@ -49,14 +49,14 @@ public class TransactionsController {
 		return ResponseEntity.ok(trnRepo.findAllByUser(userId, PageRequest.of(pageNum, DEFAULT_PAGE_SIZE, Direction.DESC, "date")));
 	}
 	
-	@PutMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addTransaction(@RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber) {
 		trn.setAccount(accRepo.findById(accountNumber).get());
 		Transaction newTrn = trnRepo.save(trn);
 		return ResponseEntity.ok(newTrn);
 	}
 	
-	@PostMapping(path="/users/{userId}/accounts/{accNumber}/transactions/{trnId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(path="/users/{userId}/accounts/{accNumber}/transactions/{trnId}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> editTransaction(@RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber, @PathVariable("trnId") long trnId) {
 		if (trnRepo.findById(trn.getId()).isPresent()) {
 			trn.setAccount(accRepo.findById(accountNumber).get());

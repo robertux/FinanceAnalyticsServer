@@ -100,6 +100,9 @@
 				{
 					"name": "Edit account 9999 for user 2",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -217,6 +220,154 @@
 							]
 						},
 						"description": "Get latest 20 transactions from user 2's account number 5540241215"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user 2 account 5540241215 transactions page 2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8888/api/users/2/accounts/5540241215/transactions/page/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"accounts",
+								"5540241215",
+								"transactions",
+								"page",
+								"2"
+							]
+						},
+						"description": "Get next page of the latest 20 transactions from user 2's account number 5540241215"
+					},
+					"response": []
+				},
+				{
+					"name": "Add transaction to user 2 account 5540241215",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 0,\n\t\"amount\": 99.99,\n\t\"categoryName\": \"test category\",\n\t\"date\": \"\",\n\t\"description\": \"Test transaction\",\n\t\"reference\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/users/2/accounts/5540241215/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"accounts",
+								"5540241215",
+								"transactions"
+							]
+						},
+						"description": "Add a new transaction to user 2's account 5540241215"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit user 2 account 5540241215 transaction 19",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2a68079c-8165-4d3c-969a-f0b651c40c97",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 19,\n    \"amount\": 11.11,\n    \"categoryName\": \"test category edited\",\n    \"date\": \"\",\n    \"description\": \"Test transaction edited\",\n    \"reference\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/users/2/accounts/5540241215/transactions/19",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"accounts",
+								"5540241215",
+								"transactions",
+								"19"
+							]
+						},
+						"description": "Edit an existing transaction with id 19 on account number 5540241215 user 2"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user 2 account 5540241215 transaction 19",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8888/api/users/2/accounts/5540241215/transactions/19",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"accounts",
+								"5540241215",
+								"transactions",
+								"19"
+							]
+						},
+						"description": "Delete the transaction 19 from the account 5540241215 from the user 2"
 					},
 					"response": []
 				}

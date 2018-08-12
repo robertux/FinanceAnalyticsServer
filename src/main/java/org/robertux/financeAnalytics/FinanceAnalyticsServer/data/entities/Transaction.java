@@ -28,7 +28,7 @@ public class Transaction implements Serializable {
 	public static final String CATEGORY_DEFAULT = "DEFAULT";
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
 	private BigDecimal amount;
