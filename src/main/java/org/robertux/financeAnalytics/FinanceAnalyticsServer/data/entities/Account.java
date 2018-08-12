@@ -1,13 +1,17 @@
 package org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.List;
 
-import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.AccountTypes;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.AccountType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.List;
 
 
 /**
@@ -62,7 +66,7 @@ public class Account implements Serializable {
 
 	public void setType(Integer type) {
 		//Se asegura que el tipo asignado corresponda con uno de los tipos de cuenta válidos
-		this.type = AccountTypes.get(type).getCode();
+		this.type = AccountType.get(type).getCode();
 	}
 
 	public User getUser() {

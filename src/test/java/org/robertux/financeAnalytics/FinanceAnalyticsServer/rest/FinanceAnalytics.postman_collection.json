@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "b86a95a7-db0a-42e9-b952-015d788b6f41",
+		"name": "FinanceAnalytics",
+		"description": "Finance Analytics REST services testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "Get user 2 accounts",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8888/api/users/2/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"accounts"
+							]
+						},
+						"description": "Queries all accounts for the user with ID 2"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all account types",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8888/api/accounts/types",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"accounts",
+								"types"
+							]
+						},
+						"description": "Get a list of all account types available"
+					},
+					"response": []
+				},
+				{
+					"name": "Add account to user 2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"number\":9999,\"alias\":\"Test account\",\"type\":1}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/users/2/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"accounts"
+							]
+						},
+						"description": "Add a new account to user 2"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit account 9999 for user 2",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"number\":9999,\"alias\":\"Test account edited\",\"type\":1}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/api/users/2/accounts/9999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"accounts",
+								"9999"
+							]
+						},
+						"description": "Edit user 2's account number 9999 description value"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user 2 account 9999",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8888/api/users/2/accounts/9999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"accounts",
+								"9999"
+							]
+						},
+						"description": "Delete user 2's 9999 account"
+					},
+					"response": []
+				}
+			],
+			"description": "Accounts related REST endpoint testing"
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Get user 2 transactions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8888/api/users/2/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"transactions"
+							]
+						},
+						"description": "Get latest 20 transactions from all user 2 accounts"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user 2 account 5540241215 transactions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8888/api/users/2/accounts/5540241215/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"accounts",
+								"5540241215",
+								"transactions"
+							]
+						},
+						"description": "Get latest 20 transactions from user 2's account number 5540241215"
+					},
+					"response": []
+				}
+			],
+			"description": "Transactions related REST endpoint testing"
+		}
+	]
+}
