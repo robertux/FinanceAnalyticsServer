@@ -1,0 +1,200 @@
+{
+	"id": "c0d6a398-8625-4530-abf1-582601c0e6f6",
+	"name": "FinanceAnalytics",
+	"allTests": [],
+	"timestamp": "2018-08-12T02:17:29.078Z",
+	"collection_id": "b86a95a7-db0a-42e9-b952-015d788b6f41",
+	"folder_id": 0,
+	"target_type": "collection",
+	"environment_id": "0",
+	"data": [],
+	"delay": 0,
+	"count": 1,
+	"collection": {
+		"id": "b86a95a7-db0a-42e9-b952-015d788b6f41",
+		"name": "FinanceAnalytics",
+		"description": "Finance Analytics REST services testing",
+		"auth": null,
+		"events": null,
+		"variables": [],
+		"order": [],
+		"folders_order": [
+			"f8883606-f2a8-4e92-92fa-ad71501bb6b2",
+			"3a3d7a8f-92ea-4b4c-9ef5-50a8207f8b56"
+		],
+		"owner": "0",
+		"permissions": {},
+		"favorite": false,
+		"shared": false,
+		"type": "collection",
+		"depth": 0
+	},
+	"folder": null,
+	"environment": null,
+	"globals": null,
+	"results": [
+		{
+			"name": "Get user 2 accounts",
+			"id": "4066d49d-4f8d-43c7-a85b-bfb0a1466170",
+			"url": "http://localhost:8888/api/users/2/accounts",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {},
+			"times": [
+				"1080"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "1080",
+			"totalRequestTime": "1080",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get all account types",
+			"id": "46b86717-da82-486a-9b2c-a3198b6fd3ba",
+			"url": "http://localhost:8888/api/accounts/types",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {},
+			"times": [
+				"28"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "28",
+			"totalRequestTime": "28",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get user 2 transactions",
+			"id": "08742dde-b647-4f7c-b146-0e7a4ac90d3e",
+			"url": "http://localhost:8888/api/users/2/transactions",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {},
+			"times": [
+				"156"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "156",
+			"totalRequestTime": "156",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get user 2 account 5540241215 transactions",
+			"id": "fa9ec1e1-91ac-44f9-b885-19983fff1778",
+			"url": "http://localhost:8888/api/users/2/accounts/5540241215/transactions",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {},
+			"times": [
+				"55"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "55",
+			"totalRequestTime": "55",
+			"iterationResults": {}
+		}
+	],
+	"totalPass": 0,
+	"totalFail": 0,
+	"totalTime": 1319,
+	"lifecycle": "done",
+	"requests": [
+		{
+			"name": "Get user 2 accounts",
+			"id": "4066d49d-4f8d-43c7-a85b-bfb0a1466170",
+			"url": "http://localhost:8888/api/users/2/accounts",
+			"time": "2018-08-12T02:17:29.078Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {}
+		},
+		{
+			"name": "Get all account types",
+			"id": "46b86717-da82-486a-9b2c-a3198b6fd3ba",
+			"url": "http://localhost:8888/api/accounts/types",
+			"time": "2018-08-12T02:17:29.078Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {}
+		},
+		{
+			"name": "Get user 2 transactions",
+			"id": "08742dde-b647-4f7c-b146-0e7a4ac90d3e",
+			"url": "http://localhost:8888/api/users/2/transactions",
+			"time": "2018-08-12T02:17:29.078Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {}
+		},
+		{
+			"name": "Get user 2 account 5540241215 transactions",
+			"id": "fa9ec1e1-91ac-44f9-b885-19983fff1778",
+			"url": "http://localhost:8888/api/users/2/accounts/5540241215/transactions",
+			"time": "2018-08-12T02:17:29.078Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {}
+		}
+	],
+	"synced": false
+}
