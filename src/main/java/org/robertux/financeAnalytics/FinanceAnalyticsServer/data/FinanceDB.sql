@@ -65,7 +65,8 @@ CREATE TABLE public.transactions (
     reference character varying(50),
     description character varying(255),
     category_name character varying(20) DEFAULT 'GENERAL'::character varying,
-    date_time timestamp with time zone DEFAULT now() NOT NULL
+    date_time timestamp with time zone DEFAULT now() NOT NULL,
+    currency character varying(5) NOT NULL DEFAULT 'USD'::character varying
 );
 
 
