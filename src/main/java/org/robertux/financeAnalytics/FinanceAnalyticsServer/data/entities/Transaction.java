@@ -42,6 +42,8 @@ public class Transaction implements Serializable {
 	private String description;
 
 	private String reference;
+	
+	private String currency;
 
 	@JsonIgnore
 	//bi-directional many-to-one association to Account
@@ -100,6 +102,14 @@ public class Transaction implements Serializable {
 
 	public void setReference(String reference) {
 		this.reference = reference;
+	}
+	
+	public String getCurrency() {
+		return this.currency;
+	}
+	
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 	public Account getAccount() {
