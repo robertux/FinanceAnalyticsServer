@@ -30,7 +30,7 @@ public class AccountsController {
 	
 	@GetMapping(path="/accounts/types", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AccountType>> getAccountTypes() {
-		return ResponseEntity.ok(Arrays.asList(AccountType.values));
+		return ResponseEntity.ok(Arrays.asList(AccountType.SAVINGS.getAll()));
 	}
 	
 	@PostMapping(path="/users/{userId}/accounts", produces=MediaType.APPLICATION_JSON_VALUE)
