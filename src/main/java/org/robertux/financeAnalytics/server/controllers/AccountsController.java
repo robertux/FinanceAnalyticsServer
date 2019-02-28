@@ -1,12 +1,11 @@
-package org.robertux.financeAnalytics.FinanceAnalyticsServer.controllers;
+package org.robertux.financeAnalytics.server.controllers;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.AccountType;
-import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities.Account;
-import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.repositories.AccountsRepository;
-import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.repositories.UsersRepository;
+import org.robertux.financeAnalytics.server.data.AccountType;
+import org.robertux.financeAnalytics.server.data.entities.Account;
+import org.robertux.financeAnalytics.server.data.repositories.AccountsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +22,6 @@ public class AccountsController {
 	
 	@Autowired
 	private AccountsRepository accRepo;
-	
-	@Autowired
-	private UsersRepository userRepo;
 
 	@GetMapping(path="/users/{userId}/accounts", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Account>> getAccounts(@PathVariable("userId") long userId) {
@@ -42,7 +38,7 @@ public class AccountsController {
 		if (accRepo.findById(acc.getNumber()).isPresent()) {
 			return ResponseEntity.badRequest().body("Ya existe una cuenta con este número");
 		} else {
-			acc.setUser(userRepo.findById(userId).get());
+			acc.setUserId(userId);
 			Account newAcc = accRepo.save(acc);
 			return ResponseEntity.ok(newAcc);
 		}
@@ -51,7 +47,7 @@ public class AccountsController {
 	@PutMapping(path="/users/{userId}/accounts/{accNumber}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> editAccount(@RequestBody Account acc, @PathVariable("userId") long userId, @PathVariable("accNumber") long accNumber) {
 		if (accRepo.findById(acc.getNumber()).isPresent()) {
-			acc.setUser(userRepo.findById(userId).get());
+			acc.setUserId(userId);
 			Account newAcc = accRepo.save(acc);
 			return ResponseEntity.ok(newAcc);
 		} else {

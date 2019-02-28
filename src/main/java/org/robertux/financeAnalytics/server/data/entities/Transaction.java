@@ -1,4 +1,4 @@
-package org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities;
+package org.robertux.financeAnalytics.server.data.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -7,13 +7,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -28,8 +23,7 @@ public class Transaction implements Serializable {
 	public static final String CATEGORY_DEFAULT = "DEFAULT";
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private String id;
 
 	private BigDecimal amount;
 
@@ -45,19 +39,16 @@ public class Transaction implements Serializable {
 	
 	private String currency;
 
-	@JsonIgnore
-	//bi-directional many-to-one association to Account
-	@ManyToOne
-	private Account account;
+	private long accountNumber;
 
 	public Transaction() {
 	}
 
-	public Long getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -112,12 +103,12 @@ public class Transaction implements Serializable {
 		this.currency = currency;
 	}
 
-	public Account getAccount() {
-		return this.account;
+	public long getAccountNumber() {
+		return this.accountNumber;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setAccountNumber(long accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 
 }

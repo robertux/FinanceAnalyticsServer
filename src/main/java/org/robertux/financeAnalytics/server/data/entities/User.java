@@ -1,11 +1,12 @@
-package org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities;
+package org.robertux.financeAnalytics.server.data.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 /**
@@ -26,11 +27,6 @@ public class User implements Serializable {
 	private String password;
 
 	private String status;
-
-	@JsonIgnore
-	//bi-directional many-to-one association to Account
-	@OneToMany(mappedBy="user")
-	private List<Account> accounts;
 
 	public User() {
 	}
@@ -66,27 +62,4 @@ public class User implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public List<Account> getAccounts() {
-		return this.accounts;
-	}
-
-	public void setAccounts(List<Account> accounts) {
-		this.accounts = accounts;
-	}
-
-	public Account addAccount(Account account) {
-		getAccounts().add(account);
-		account.setUser(this);
-
-		return account;
-	}
-
-	public Account removeAccount(Account account) {
-		getAccounts().remove(account);
-		account.setUser(null);
-
-		return account;
-	}
-
 }

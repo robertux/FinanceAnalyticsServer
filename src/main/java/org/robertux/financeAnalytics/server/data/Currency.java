@@ -1,4 +1,4 @@
-package org.robertux.financeAnalytics.FinanceAnalyticsServer.data;
+package org.robertux.financeAnalytics.server.data;
 
 public class Currency {
 	private String name;

@@ -1,4 +1,4 @@
-package org.robertux.financeAnalytics.FinanceAnalyticsServer;
+package org.robertux.financeAnalytics.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.springframework.boot.SpringApplication;

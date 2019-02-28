@@ -1,14 +1,14 @@
-package org.robertux.financeAnalytics.FinanceAnalyticsServer.data.repositories;
+package org.robertux.financeAnalytics.server.data.repositories;
 
 import java.util.List;
 
-import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities.Transaction;
+import org.robertux.financeAnalytics.server.data.entities.Transaction;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface TransactionsRepository extends CrudRepository<Transaction, Long> {
+public interface TransactionsRepository extends CrudRepository<Transaction, String> {
 
 	@Query("SELECT t FROM Transaction t WHERE t.account.number = :accountNumber")
 	public List<Transaction> findAllByAccountNum(@Param("accountNumber") long accountNumber, Pageable pg);

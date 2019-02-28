@@ -1,10 +1,9 @@
-package org.robertux.financeAnalytics.FinanceAnalyticsServer.controllers;
+package org.robertux.financeAnalytics.server.controllers;
 
 import java.util.List;
 
-import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.entities.Transaction;
-import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.repositories.AccountsRepository;
-import org.robertux.financeAnalytics.FinanceAnalyticsServer.data.repositories.TransactionsRepository;
+import org.robertux.financeAnalytics.server.data.entities.Transaction;
+import org.robertux.financeAnalytics.server.data.repositories.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -25,9 +24,6 @@ public class TransactionsController {
 
 	@Autowired
 	private TransactionsRepository trnRepo;
-	
-	@Autowired
-	private AccountsRepository accRepo;
 
 	@GetMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Transaction>> getTransactions(@PathVariable("accNumber") long accountNumber) {
@@ -51,7 +47,7 @@ public class TransactionsController {
 	
 	@PostMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addTransaction(@RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber) {
-		trn.setAccount(accRepo.findById(accountNumber).get());
+		trn.setAccountNumber(accountNumber);
 		Transaction newTrn = trnRepo.save(trn);
 		return ResponseEntity.ok(newTrn);
 	}
@@ -59,7 +55,7 @@ public class TransactionsController {
 	@PutMapping(path="/users/{userId}/accounts/{accNumber}/transactions/{trnId}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> editTransaction(@RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber, @PathVariable("trnId") long trnId) {
 		if (trnRepo.findById(trn.getId()).isPresent()) {
-			trn.setAccount(accRepo.findById(accountNumber).get());
+			trn.setAccountNumber(accountNumber);
 			Transaction newTrn = trnRepo.save(trn);
 			return ResponseEntity.ok(newTrn);
 		} else {
@@ -68,7 +64,7 @@ public class TransactionsController {
 	}
 	
 	@DeleteMapping("/users/{userId}/accounts/{accNumber}/transactions/{trnId}")
-	public ResponseEntity<?> deleteTransaction(@PathVariable("trnId") long trnId) {
+	public ResponseEntity<?> deleteTransaction(@PathVariable("trnId") String trnId) {
 		if (trnRepo.findById(trnId).isPresent()) {
 			trnRepo.deleteById(trnId);
 			return ResponseEntity.ok().build();
