@@ -46,7 +46,8 @@ SET default_with_oids = false;
 CREATE TABLE public.accounts (
     number bigint NOT NULL,
     alias character varying(50),
-    type integer NOT NULL,
+    type character varying(5) NOT NULL DEFAULT 'SAV'::character varying,
+    balance numeric(10,2) NOT NULL DEFAULT 0.0,
     user_id bigint NOT NULL
 );
 
@@ -59,7 +60,7 @@ ALTER TABLE public.accounts OWNER TO postgres;
 --
 
 CREATE TABLE public.transactions (
-    id bigint NOT NULL,
+    id character varying(100) NOT NULL DEFAULT 'TRNID'::character varying,
     amount numeric(10,2) NOT NULL,
     account_number bigint NOT NULL,
     reference character varying(50),
@@ -67,34 +68,11 @@ CREATE TABLE public.transactions (
     category_name character varying(20) DEFAULT 'GENERAL'::character varying,
     date_time timestamp with time zone DEFAULT now() NOT NULL,
     currency character varying(5) NOT NULL DEFAULT 'USD'::character varying
+    status character varying(2) NOT NULL DEFAULT 'A'::character varying
 );
 
 
 ALTER TABLE public.transactions OWNER TO postgres;
-
---
--- TOC entry 184 (class 1259 OID 57407)
--- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.transactions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.transactions_id_seq OWNER TO postgres;
-
---
--- TOC entry 2398 (class 0 OID 0)
--- Dependencies: 184
--- Name: transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.transactions_id_seq OWNED BY public.transactions.id;
-
 
 --
 -- TOC entry 182 (class 1259 OID 57390)
@@ -134,79 +112,12 @@ ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
-
---
--- TOC entry 2259 (class 2604 OID 65695)
--- Name: transactions id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.transactions ALTER COLUMN id SET DEFAULT nextval('public.transactions_id_seq'::regclass);
-
-
 --
 -- TOC entry 2258 (class 2604 OID 65715)
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
-
-
---
--- TOC entry 2386 (class 0 OID 57401)
--- Dependencies: 183
--- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.accounts (number, alias, type, user_id) FROM stdin;
-5540241215	Cta personal	1	2
-2540610900	Cta Presupuestos	1	2
-4550040600463261	Tarjeta principal	4	2
-1	Efectivo	5	2
-\.
-
-
---
--- TOC entry 2388 (class 0 OID 57409)
--- Dependencies: 185
--- Data for Name: transactions; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.transactions (id, amount, account_number, reference, description, category_name, date_time) FROM stdin;
-9	23.54	5540241215	\N	Compras en el super	Supermarket	2018-08-11 18:25:25.099966-06
-10	31.86	4550040600463261	\N	Almuerzo Pizza Hut	Lunch	2018-08-11 18:25:25.099966-06
-11	3.25	5540241215	\N	Cafe Starbucks	Coffee	2018-08-11 18:25:25.099966-06
-12	0.90	5540241215	\N	Cafe Kaaps	Coffee	2018-08-11 18:25:25.099966-06
-13	25.78	4550040600463261	\N	Compra de ropa	Clothing	2018-08-11 18:25:25.099966-06
-14	9.99	4550040600463261	\N	Membresia Netflix	Entertainment	2018-08-11 18:25:25.099966-06
-15	31.00	4550040600463261	\N	Gasolina Especial Texaco (7gal)	Transport	2018-08-11 18:25:25.099966-06
-16	4.00	1	\N	Aportes de beneficencia en la semana	Charities	2018-08-11 18:25:25.099966-06
-17	3.85	1	\N	Transporte publico de la semana	Transport	2018-08-11 18:25:25.099966-06
-\.
-
-
---
--- TOC entry 2385 (class 0 OID 57390)
--- Dependencies: 182
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.users (id, name, password, status) FROM stdin;
-4	user	prueba	A
-3	robertux	prueba123	A
-2	admin	Prueba123!	A
-9	foobar	password	I
-11	foo2	bar2	A
-\.
-
-
---
--- TOC entry 2400 (class 0 OID 0)
--- Dependencies: 184
--- Name: transactions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.transactions_id_seq', 18, true);
-
 
 --
 -- TOC entry 2401 (class 0 OID 0)

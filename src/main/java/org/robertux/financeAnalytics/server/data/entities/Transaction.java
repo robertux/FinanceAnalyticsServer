@@ -39,7 +39,10 @@ public class Transaction implements Serializable {
 	
 	private String currency;
 
+	@Column(name="account_number")
 	private long accountNumber;
+	
+	private String status;
 
 	public Transaction() {
 	}
@@ -111,4 +114,11 @@ public class Transaction implements Serializable {
 		this.accountNumber = accountNumber;
 	}
 
+	public String getStatus() {
+		return this.status;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

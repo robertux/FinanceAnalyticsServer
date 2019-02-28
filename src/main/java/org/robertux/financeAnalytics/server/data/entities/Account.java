@@ -1,12 +1,12 @@
 package org.robertux.financeAnalytics.server.data.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.robertux.financeAnalytics.server.data.AccountType;
 
 
 /**
@@ -23,11 +23,15 @@ public class Account implements Serializable {
 
 	private String alias;
 
-	private Integer type;
+	private String type;
 
+	@Column(name="user_id")
 	private long userId;
+	
+	private BigDecimal balance;
 
 	public Account() {
+		
 	}
 
 	public Long getNumber() {
@@ -35,8 +39,7 @@ public class Account implements Serializable {
 	}
 
 	public void setNumber(Long number) {
-		//Se asegura que el número de cuenta sea siempre positivo
-		this.number = Math.abs(number);
+		this.number = number;
 	}
 
 	public String getAlias() {
@@ -47,13 +50,12 @@ public class Account implements Serializable {
 		this.alias = alias;
 	}
 
-	public Integer getType() {
+	public String getType() {
 		return this.type;
 	}
 
-	public void setType(Integer type) {
-		//Se asegura que el tipo asignado corresponda con uno de los tipos de cuenta válidos
-		this.type = AccountType.get(type).getCode();
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public long getUserId() {
@@ -62,5 +64,13 @@ public class Account implements Serializable {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+	
+	public BigDecimal getBalance() {
+		return this.balance;
+	}
+	
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
 	}
 }
