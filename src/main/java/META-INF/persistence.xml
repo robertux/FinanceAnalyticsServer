@@ -4,5 +4,6 @@
 		<class>org.robertux.financeAnalytics.server.data.entities.Account</class>
 		<class>org.robertux.financeAnalytics.server.data.entities.Transaction</class>
 		<class>org.robertux.financeAnalytics.server.data.entities.User</class>
+		<class>org.robertux.financeAnalytics.server.data.entities.Session</class>
 	</persistence-unit>
 </persistence>

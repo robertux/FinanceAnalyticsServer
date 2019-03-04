@@ -3,67 +3,76 @@
 --
 
 -- Dumped from database version 9.5beta1
--- Dumped by pg_dump version 10.4
+-- Dumped by pg_dump version 11.1
 
---
--- TOC entry 1 (class 3079 OID 12623)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
+-- Started on 2019-03-03 23:42:58 CST
 
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- TOC entry 2397 (class 0 OID 0)
--- Dependencies: 1
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- TOC entry 183 (class 1259 OID 57401)
+-- TOC entry 181 (class 1259 OID 90282)
 -- Name: accounts; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.accounts (
     number bigint NOT NULL,
     alias character varying(50),
-    type character varying(5) NOT NULL DEFAULT 'SAV'::character varying,
-    balance numeric(10,2) NOT NULL DEFAULT 0.0,
+    type character varying(5) DEFAULT 'SAV'::character varying NOT NULL,
+    balance numeric(10,2) DEFAULT 0.0 NOT NULL,
     user_id bigint NOT NULL
 );
 
 
-ALTER TABLE public.accounts OWNER TO postgres;
+ALTER TABLE public.accounts OWNER TO "financeUser";
 
 --
--- TOC entry 185 (class 1259 OID 57409)
+-- TOC entry 185 (class 1259 OID 90320)
+-- Name: sessions; Type: TABLE; Schema: public; Owner: financeUser
+--
+
+CREATE TABLE public.sessions (
+    id character varying(50) NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.sessions OWNER TO "financeUser";
+
+--
+-- TOC entry 182 (class 1259 OID 90287)
 -- Name: transactions; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.transactions (
-    id character varying(100) NOT NULL DEFAULT 'TRNID'::character varying,
+    id character varying(100) DEFAULT 'TRNID'::character varying NOT NULL,
     amount numeric(10,2) NOT NULL,
     account_number bigint NOT NULL,
     reference character varying(50),
     description character varying(255),
     category_name character varying(20) DEFAULT 'GENERAL'::character varying,
     date_time timestamp with time zone DEFAULT now() NOT NULL,
-    currency character varying(5) NOT NULL DEFAULT 'USD'::character varying,
-    status character varying(2) NOT NULL DEFAULT 'A'::character varying
+    currency character varying(5) DEFAULT 'USD'::character varying NOT NULL,
+    status character varying(2) DEFAULT 'A'::character varying NOT NULL
 );
 
 
-ALTER TABLE public.transactions OWNER TO postgres;
+ALTER TABLE public.transactions OWNER TO "financeUser";
 
 --
--- TOC entry 182 (class 1259 OID 57390)
+-- TOC entry 183 (class 1259 OID 90295)
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -75,10 +84,10 @@ CREATE TABLE public.users (
 );
 
 
-ALTER TABLE public.users OWNER TO postgres;
+ALTER TABLE public.users OWNER TO "financeUser";
 
 --
--- TOC entry 181 (class 1259 OID 57388)
+-- TOC entry 184 (class 1259 OID 90301)
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -90,34 +99,76 @@ CREATE SEQUENCE public.users_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_id_seq OWNER TO postgres;
+ALTER TABLE public.users_id_seq OWNER TO "financeUser";
 
 --
--- TOC entry 2399 (class 0 OID 0)
--- Dependencies: 181
+-- TOC entry 2404 (class 0 OID 0)
+-- Dependencies: 184
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
+
 --
--- TOC entry 2258 (class 2604 OID 65715)
+-- TOC entry 2267 (class 2604 OID 90303)
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
+
 --
--- TOC entry 2401 (class 0 OID 0)
+-- TOC entry 2393 (class 0 OID 90282)
 -- Dependencies: 181
+-- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.accounts (number, alias, type, balance, user_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2397 (class 0 OID 90320)
+-- Dependencies: 185
+-- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: financeUser
+--
+
+COPY public.sessions (id, user_id, created_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2394 (class 0 OID 90287)
+-- Dependencies: 182
+-- Data for Name: transactions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.transactions (id, amount, account_number, reference, description, category_name, date_time, currency, status) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2395 (class 0 OID 90295)
+-- Dependencies: 183
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, name, password, status) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2405 (class 0 OID 0)
+-- Dependencies: 184
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 12, true);
+SELECT pg_catalog.setval('public.users_id_seq', 1, true);
 
 
 --
--- TOC entry 2265 (class 2606 OID 65647)
+-- TOC entry 2269 (class 2606 OID 90305)
 -- Name: accounts account_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -126,7 +177,7 @@ ALTER TABLE ONLY public.accounts
 
 
 --
--- TOC entry 2263 (class 2606 OID 65717)
+-- TOC entry 2273 (class 2606 OID 90307)
 -- Name: users customer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -135,7 +186,16 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2267 (class 2606 OID 65697)
+-- TOC entry 2275 (class 2606 OID 90324)
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: financeUser
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2271 (class 2606 OID 90309)
 -- Name: transactions transaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -144,7 +204,7 @@ ALTER TABLE ONLY public.transactions
 
 
 --
--- TOC entry 2268 (class 2606 OID 65735)
+-- TOC entry 2276 (class 2606 OID 90310)
 -- Name: accounts fk_account_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -153,7 +213,16 @@ ALTER TABLE ONLY public.accounts
 
 
 --
--- TOC entry 2269 (class 2606 OID 65648)
+-- TOC entry 2278 (class 2606 OID 90325)
+-- Name: sessions fk_session_user_id; Type: FK CONSTRAINT; Schema: public; Owner: financeUser
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT fk_session_user_id FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- TOC entry 2277 (class 2606 OID 90315)
 -- Name: transactions fk_transaction_account_number; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -162,8 +231,8 @@ ALTER TABLE ONLY public.transactions
 
 
 --
--- TOC entry 2396 (class 0 OID 0)
--- Dependencies: 6
+-- TOC entry 2403 (class 0 OID 0)
+-- Dependencies: 7
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -173,7 +242,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2018-08-11 21:50:21 CST
+-- Completed on 2019-03-03 23:42:59 CST
 
 --
 -- PostgreSQL database dump complete
