@@ -5,18 +5,6 @@
 -- Dumped from database version 9.5beta1
 -- Dumped by pg_dump version 10.4
 
--- Started on 2018-08-11 21:50:20 CST
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET row_security = off;
-
 --
 -- TOC entry 1 (class 3079 OID 12623)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
@@ -67,7 +55,7 @@ CREATE TABLE public.transactions (
     description character varying(255),
     category_name character varying(20) DEFAULT 'GENERAL'::character varying,
     date_time timestamp with time zone DEFAULT now() NOT NULL,
-    currency character varying(5) NOT NULL DEFAULT 'USD'::character varying
+    currency character varying(5) NOT NULL DEFAULT 'USD'::character varying,
     status character varying(2) NOT NULL DEFAULT 'A'::character varying
 );
 

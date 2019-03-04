@@ -1,6 +1,7 @@
 package org.robertux.financeAnalytics.server.data;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public abstract class KeyValue {
 	private String code;
@@ -15,8 +16,12 @@ public abstract class KeyValue {
 	
 	public abstract KeyValue[] getAll();
 	
-	public KeyValue get(String key) {
-		return Arrays.stream(getAll()).filter(kv -> kv.code.equals(key)).findFirst().orElse(getDefault());
+	public KeyValue getAny(String key) {
+		return this.get(key).orElse(getDefault());
+	}
+	
+	public Optional<KeyValue> get(String key) {
+		return Arrays.stream(getAll()).filter(kv -> kv.code.equals(key)).findAny();
 	}
 	
 	public String getCode() {
