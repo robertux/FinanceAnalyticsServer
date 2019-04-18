@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface SessionsRepository extends CrudRepository<Session, String> {
 
-	@Query("SELECT s FROM Session s WHERE s.userId = :userID")
+	@Query("SELECT s FROM Session s WHERE s.userId = :userId")
 	public List<Session> findByUserId(@Param("userId") long userId);
 }
