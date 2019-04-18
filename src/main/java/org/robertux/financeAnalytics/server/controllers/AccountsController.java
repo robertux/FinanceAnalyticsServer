@@ -35,7 +35,7 @@ public class AccountsController {
 	
 	@PostMapping(path="/users/{userId}/accounts", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addAccount(@RequestBody Account acc, @PathVariable("userId") long userId) {
-		if (accRepo.findById(acc.getNumber()).isPresent()) {
+		if (accRepo.findByAccNumberAndUserId(acc.getNumber(), userId).isPresent()) {
 			return ResponseEntity.badRequest().body("Ya existe una cuenta con este número");
 		} else {
 			acc.setUserId(userId);
@@ -46,7 +46,7 @@ public class AccountsController {
 	
 	@PutMapping(path="/users/{userId}/accounts/{accNumber}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> editAccount(@RequestBody Account acc, @PathVariable("userId") long userId, @PathVariable("accNumber") long accNumber) {
-		if (accRepo.findById(acc.getNumber()).isPresent()) {
+		if (accRepo.findByAccNumberAndUserId(acc.getNumber(), userId).isPresent()) {
 			acc.setUserId(userId);
 			Account newAcc = accRepo.save(acc);
 			return ResponseEntity.ok(newAcc);
@@ -56,8 +56,8 @@ public class AccountsController {
 	}
 	
 	@DeleteMapping("/users/{userId}/accounts/{accNumber}")
-	public ResponseEntity<?> deleteAccount(@PathVariable("accNumber") long accNumber) {
-		if (accRepo.findById(accNumber).isPresent()) {
+	public ResponseEntity<?> deleteAccount(@PathVariable("userId") long userId, @PathVariable("accNumber") long accNumber) {
+		if (accRepo.findByAccNumberAndUserId(accNumber, userId).isPresent()) {
 			accRepo.deleteById(accNumber);
 			return ResponseEntity.ok().build();
 		} else {
