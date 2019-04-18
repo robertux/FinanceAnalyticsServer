@@ -3,6 +3,8 @@ package org.robertux.financeAnalytics.server.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.robertux.financeAnalytics.server.data.entities.Account;
 import org.robertux.financeAnalytics.server.data.entities.Transaction;
 import org.robertux.financeAnalytics.server.data.repositories.AccountsRepository;
@@ -32,12 +34,18 @@ public class TransactionsController {
 	private AccountsRepository accRepo;
 
 	@GetMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Transaction>> getTransactions(@PathVariable("accNumber") long accountNumber) {
+	public ResponseEntity<List<Transaction>> getTransactions(@PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber) {
+		if (!accRepo.findByAccNumberAndUserId(accountNumber, userId).isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
 		return ResponseEntity.ok(trnRepo.findAllByAccountNum(accountNumber, DEFAULT_PAGER));
 	}
 	
 	@GetMapping(path="/users/{userId}/accounts/{accNumber}/transactions/page/{pageNum}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Transaction>> getTransactionsPaged(@PathVariable("accNumber") long accountNumber, @PathVariable("pageNum") int pageNum) {
+	public ResponseEntity<List<Transaction>> getTransactionsPaged(@PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber, @PathVariable("pageNum") int pageNum) {
+		if (!accRepo.findByAccNumberAndUserId(accountNumber, userId).isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
 		return ResponseEntity.ok(trnRepo.findAllByAccountNum(accountNumber, PageRequest.of(pageNum, DEFAULT_PAGE_SIZE, Direction.DESC, "date")));
 	}
 	
@@ -56,14 +64,22 @@ public class TransactionsController {
 	}
 	
 	@PostMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> addTransaction(@RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber) {
+	public ResponseEntity<?> addTransaction(@Valid @RequestBody Transaction trn, @PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber) {
+		if (!accRepo.findByAccNumberAndUserId(accountNumber, userId).isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		
 		trn.setAccountNumber(accountNumber);
 		Transaction newTrn = trnRepo.save(trn);
 		return ResponseEntity.ok(newTrn);
 	}
 	
 	@PutMapping(path="/users/{userId}/accounts/{accNumber}/transactions/{trnId}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> editTransaction(@RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber, @PathVariable("trnId") long trnId) {
+	public ResponseEntity<?> editTransaction(@Valid @RequestBody Transaction trn, @PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber, @PathVariable("trnId") long trnId) {
+		if (!accRepo.findByAccNumberAndUserId(accountNumber, userId).isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		
 		if (trnRepo.findById(trn.getId()).isPresent()) {
 			trn.setAccountNumber(accountNumber);
 			Transaction newTrn = trnRepo.save(trn);
@@ -74,7 +90,11 @@ public class TransactionsController {
 	}
 	
 	@DeleteMapping("/users/{userId}/accounts/{accNumber}/transactions/{trnId}")
-	public ResponseEntity<?> deleteTransaction(@PathVariable("trnId") String trnId) {
+	public ResponseEntity<?> deleteTransaction(@PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber, @PathVariable("trnId") String trnId) {
+		if (!accRepo.findByAccNumberAndUserId(accountNumber, userId).isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		
 		if (trnRepo.findById(trnId).isPresent()) {
 			trnRepo.deleteById(trnId);
 			return ResponseEntity.ok().build();

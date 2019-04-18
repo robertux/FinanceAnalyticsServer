@@ -7,6 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.robertux.financeAnalytics.server.data.validators.ValidAccountType;
 
 
 /**
@@ -18,16 +23,19 @@ import javax.persistence.Table;
 public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
+	@Id @Min(value = 0)
 	private Long number;
 
+	@NotBlank
 	private String alias;
 
+	@ValidAccountType
 	private String type;
 
-	@Column(name="user_id")
+	@Column(name="user_id") @Min(value = 0)
 	private long userId;
 	
+	@NotNull
 	private BigDecimal balance;
 
 	public Account() {

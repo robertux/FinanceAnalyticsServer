@@ -3,6 +3,8 @@ package org.robertux.financeAnalytics.server.controllers;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.robertux.financeAnalytics.server.data.AccountType;
 import org.robertux.financeAnalytics.server.data.entities.Account;
 import org.robertux.financeAnalytics.server.data.repositories.AccountsRepository;
@@ -34,7 +36,7 @@ public class AccountsController {
 	}
 	
 	@PostMapping(path="/users/{userId}/accounts", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> addAccount(@RequestBody Account acc, @PathVariable("userId") long userId) {
+	public ResponseEntity<?> addAccount(@Valid @RequestBody Account acc, @PathVariable("userId") long userId) {
 		if (accRepo.findByAccNumberAndUserId(acc.getNumber(), userId).isPresent()) {
 			return ResponseEntity.badRequest().body("Ya existe una cuenta con este número");
 		} else {
@@ -45,7 +47,7 @@ public class AccountsController {
 	}
 	
 	@PutMapping(path="/users/{userId}/accounts/{accNumber}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> editAccount(@RequestBody Account acc, @PathVariable("userId") long userId, @PathVariable("accNumber") long accNumber) {
+	public ResponseEntity<?> editAccount(@Valid @RequestBody Account acc, @PathVariable("userId") long userId, @PathVariable("accNumber") long accNumber) {
 		if (accRepo.findByAccNumberAndUserId(acc.getNumber(), userId).isPresent()) {
 			acc.setUserId(userId);
 			Account newAcc = accRepo.save(acc);

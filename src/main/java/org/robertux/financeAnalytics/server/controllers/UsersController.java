@@ -2,6 +2,8 @@ package org.robertux.financeAnalytics.server.controllers;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.robertux.financeAnalytics.server.data.entities.User;
 import org.robertux.financeAnalytics.server.data.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class UsersController {
 	private UsersRepository usersRepo;
 	
 	@PostMapping(path="/users/", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> addUser(@RequestBody User user) {
+	public ResponseEntity<?> addUser(@Valid @RequestBody User user) {
 		if (usersRepo.findByName(user.getName()).isPresent()) {
 			return ResponseEntity.badRequest().body("Ya existe un usuario con este nombre");
 		}
@@ -34,7 +36,7 @@ public class UsersController {
 	}
 	
 	@PutMapping(path="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> editUser(@RequestBody User user, @PathVariable("userId") long userId) {
+	public ResponseEntity<?> editUser(@Valid @RequestBody User user, @PathVariable("userId") long userId) {
 		if (!usersRepo.findById(userId).isPresent()) {
 			return ResponseEntity.notFound().build();
 		}

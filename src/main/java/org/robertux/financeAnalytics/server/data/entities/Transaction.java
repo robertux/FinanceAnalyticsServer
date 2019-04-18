@@ -9,6 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.robertux.financeAnalytics.server.data.validators.ValidCurrency;
+import org.robertux.financeAnalytics.server.data.validators.ValidTransactionStatus;
 
 
 /**
@@ -25,6 +30,7 @@ public class Transaction implements Serializable {
 	@Id
 	private String id;
 
+	@NotNull
 	private BigDecimal amount;
 
 	@Column(name="category_name")
@@ -37,11 +43,13 @@ public class Transaction implements Serializable {
 
 	private String reference;
 	
+	@ValidCurrency
 	private String currency;
 
-	@Column(name="account_number")
+	@Column(name="account_number") @Min(value = 0)
 	private long accountNumber;
 	
+	@ValidTransactionStatus
 	private String status;
 
 	public Transaction() {
