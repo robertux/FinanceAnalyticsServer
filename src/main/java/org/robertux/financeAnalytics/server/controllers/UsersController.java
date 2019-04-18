@@ -47,6 +47,19 @@ public class UsersController {
 		return entity;
 	}
 	
+	@PostMapping(path="/users/", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> addUser(@RequestBody User user) {
+		if (usersRepo.findByName(user.getName()).isPresent()) {
+			return ResponseEntity.badRequest().body("Ya existe un usuario con este nombre");
+		}
+		
+		user.setPassword(usersRepo.encrypt(user.getPassword()));
+		User newUser = usersRepo.save(user);
+		newUser.setPassword("");
+		
+		return ResponseEntity.ok(newUser);
+	}
+	
 	@PostMapping(path="/users/{userId}/logout", produces=MediaType.ALL_VALUE)
 	public ResponseEntity<?> logout(@PathVariable("userId") long userId) {
 		
