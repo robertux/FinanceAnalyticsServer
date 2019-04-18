@@ -41,7 +41,10 @@ public class UsersController {
 		Session session = new Session(user.get().getId());
 		sessionsRepo.save(session);
 		
-		return ResponseEntity.ok(user.get());
+		ResponseEntity<User> entity = ResponseEntity.ok(user.get());
+		entity.getHeaders().add("Authorization", "Bearer " + session.getId());
+		
+		return entity;
 	}
 	
 	@PostMapping(path="/users/{userId}/logout", produces=MediaType.ALL_VALUE)

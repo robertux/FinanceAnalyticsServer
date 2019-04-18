@@ -1,8 +1,11 @@
 package org.robertux.financeAnalytics.server.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.robertux.financeAnalytics.server.data.entities.Account;
 import org.robertux.financeAnalytics.server.data.entities.Transaction;
+import org.robertux.financeAnalytics.server.data.repositories.AccountsRepository;
 import org.robertux.financeAnalytics.server.data.repositories.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +27,9 @@ public class TransactionsController {
 
 	@Autowired
 	private TransactionsRepository trnRepo;
+	
+	@Autowired
+	private AccountsRepository accRepo;
 
 	@GetMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Transaction>> getTransactions(@PathVariable("accNumber") long accountNumber) {
@@ -37,12 +43,16 @@ public class TransactionsController {
 	
 	@GetMapping(path="/users/{userId}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Transaction>> getAllTransactions(@PathVariable("userId") long userId) {
-		return ResponseEntity.ok(trnRepo.findAllByUser(userId, DEFAULT_PAGER));
+		List<Account> accs = accRepo.findAllByUserId(userId);
+		List<Long> accNums = accs.stream().map(acc -> acc.getNumber()).collect(Collectors.toList());
+		return ResponseEntity.ok(trnRepo.findAllByAccountNums(accNums, DEFAULT_PAGER));
 	}
 	
 	@GetMapping(path="/users/{userId}/transactions/page/{pageNum}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Transaction>> getAllTransactionsPaged(@PathVariable("userId") long userId, @PathVariable("pageNum") int pageNum) {
-		return ResponseEntity.ok(trnRepo.findAllByUser(userId, PageRequest.of(pageNum, DEFAULT_PAGE_SIZE, Direction.DESC, "date")));
+		List<Account> accs = accRepo.findAllByUserId(userId);
+		List<Long> accNums = accs.stream().map(acc -> acc.getNumber()).collect(Collectors.toList());
+		return ResponseEntity.ok(trnRepo.findAllByAccountNums(accNums, PageRequest.of(pageNum, DEFAULT_PAGE_SIZE, Direction.DESC, "date")));
 	}
 	
 	@PostMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)

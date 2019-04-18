@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface AccountsRepository extends CrudRepository<Account, Long> {
 
-	@Query("SELECT c FROM Account c WHERE c.user.id = :userId ORDER BY c.number")
+	@Query("SELECT c FROM Account c WHERE c.userId = :userId ORDER BY c.number")
 	public List<Account> findAllByUserId(@Param("userId") long userId);
 }
