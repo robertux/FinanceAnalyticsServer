@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,6 +36,18 @@ public class UsersController {
 		return ResponseEntity.ok(newUser);
 	}
 	
+	@GetMapping(path="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getUser(@PathVariable("userId") long userId) {
+		Optional<User> user = usersRepo.findById(userId);
+		
+		if (user.isPresent()) {
+			user.get().setPassword("");
+			return ResponseEntity.ok(user.get());
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
 	@PutMapping(path="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> editUser(@Valid @RequestBody User user, @PathVariable("userId") long userId) {
 		if (!usersRepo.findById(userId).isPresent()) {
@@ -46,8 +59,15 @@ public class UsersController {
 			return ResponseEntity.badRequest().body("Ya existe un usuario con este nombre");
 		}
 		
-		user.setPassword(usersRepo.encrypt(user.getPassword()));
-		User updatedUser = usersRepo.save(user);
+		User editedUser = usersRepo.findById(userId).get();
+		editedUser.setName(user.getName());
+		editedUser.setStatus(user.getStatus());
+		
+		if (!user.getPassword().isEmpty()) {
+			editedUser.setPassword(usersRepo.encrypt(user.getPassword()));
+		}
+		
+		User updatedUser = usersRepo.save(editedUser);
 		updatedUser.setPassword("");
 		
 		return ResponseEntity.ok(updatedUser);

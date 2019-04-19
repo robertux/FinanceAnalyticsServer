@@ -8,6 +8,7 @@ import org.robertux.financeAnalytics.server.data.entities.User;
 import org.robertux.financeAnalytics.server.data.repositories.SessionsRepository;
 import org.robertux.financeAnalytics.server.data.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,10 +42,10 @@ public class SessionController {
 		Session session = new Session(user.get().getId());
 		sessionsRepo.save(session);
 		
-		ResponseEntity<User> entity = ResponseEntity.ok(user.get());
-		entity.getHeaders().add("Authorization", "Bearer " + session.getId());
+		HttpHeaders headers= new HttpHeaders();
+		headers.add("Authorization", "Bearer " + session.getId());
 		
-		return entity;
+		return new ResponseEntity<User>(user.get(), headers, HttpStatus.OK);
 	}
 	
 	@PostMapping(path="/session/{userId}/logout", produces=MediaType.ALL_VALUE)
