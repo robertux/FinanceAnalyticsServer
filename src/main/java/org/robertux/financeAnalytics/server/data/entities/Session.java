@@ -1,7 +1,6 @@
 package org.robertux.financeAnalytics.server.data.entities;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,9 +25,9 @@ public class Session {
 		
 	}
 	
-	public Session(long userId) {
+	public Session(String id, long userId) {
 		this.userId = userId;
-		this.id = UUID.randomUUID().toString();
+		this.id = id;
 		this.createdAt = new Date();
 	}
 	

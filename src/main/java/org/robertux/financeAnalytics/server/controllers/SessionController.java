@@ -11,6 +11,7 @@ import org.robertux.financeAnalytics.server.data.entities.User;
 import org.robertux.financeAnalytics.server.data.repositories.SessionsRepository;
 import org.robertux.financeAnalytics.server.data.repositories.UsersRepository;
 import org.robertux.financeAnalytics.server.security.CryptoService;
+import org.robertux.financeAnalytics.server.security.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,9 @@ public class SessionController {
 	@Autowired
 	private CryptoService cryptoService;
 	
+	@Autowired
+	private JWTService jwtService;
+	
 	@PostMapping(path="/session/login", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> login(@Valid @RequestBody LoginCredentials login) {
 		Optional<User> user = usersRepo.findByName(login.getName());
@@ -45,7 +49,7 @@ public class SessionController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		
-		Session session = new Session(user.get().getId());
+		Session session = new Session(jwtService.generateToken(user.get().getName()), user.get().getId());
 		sessionsRepo.save(session);
 		
 		user.get().setPassword("");
