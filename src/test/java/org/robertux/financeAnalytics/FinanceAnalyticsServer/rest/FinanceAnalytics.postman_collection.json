@@ -10,29 +10,32 @@
 			"name": "Accounts",
 			"item": [
 				{
-					"name": "Get user 2 accounts",
+					"name": "Get user 13 accounts",
 					"request": {
 						"auth": {
 							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "http://localhost:8888/api/users/2/accounts",
+							"raw": "http://{{url}}:{{port}}/api/users/13/accounts",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"users",
-								"2",
+								"13",
 								"accounts"
 							]
 						},
-						"description": "Queries all accounts for the user with ID 2"
+						"description": "Queries all accounts for the user with ID 13"
 					},
 					"response": []
 				},
@@ -44,14 +47,17 @@
 						},
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "http://localhost:8888/api/accounts/types",
+							"raw": "http://{{url}}:{{port}}/api/accounts/types",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"accounts",
@@ -63,7 +69,7 @@
 					"response": []
 				},
 				{
-					"name": "Add account to user 2",
+					"name": "Add account to user 13",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -77,28 +83,28 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"number\":9999,\"alias\":\"Test account\",\"type\":1}"
+							"raw": "{\"number\":5540241215,\"alias\":\"Personal\",\"type\":\"SAV\", \"balance\": 100.0}"
 						},
 						"url": {
-							"raw": "http://localhost:8888/api/users/2/accounts",
+							"raw": "http://{{url}}:{{port}}/api/users/13/accounts",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"users",
-								"2",
+								"13",
 								"accounts"
 							]
 						},
-						"description": "Add a new account to user 2"
+						"description": "Add a new account to user 13"
 					},
 					"response": []
 				},
 				{
-					"name": "Edit account 9999 for user 2",
+					"name": "Edit account 2540610900 for user 13",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -112,29 +118,29 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"number\":9999,\"alias\":\"Test account edited\",\"type\":1}"
+							"raw": "{\"number\":2540610900,\"alias\":\"Savings\",\"type\":\"SAV\",\"balance\": 530.0}"
 						},
 						"url": {
-							"raw": "http://localhost:8888/api/users/2/accounts/9999",
+							"raw": "http://{{url}}:{{port}}/api/users/13/accounts/2540610900",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"users",
-								"2",
+								"13",
 								"accounts",
-								"9999"
+								"2540610900"
 							]
 						},
-						"description": "Edit user 2's account number 9999 description value"
+						"description": "Edit user 13's account number 2540610900 description and balance"
 					},
 					"response": []
 				},
 				{
-					"name": "Delete user 2 account 9999",
+					"name": "Delete user 13 account 9999",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -143,21 +149,21 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:8888/api/users/2/accounts/9999",
+							"raw": "http://{{url}}:{{port}}/api/users/13/accounts/9999",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"users",
-								"2",
+								"13",
 								"accounts",
 								"9999"
 							]
 						},
-						"description": "Delete user 2's 9999 account"
+						"description": "Delete user 13's 9999 account"
 					},
 					"response": []
 				}
@@ -175,14 +181,17 @@
 						},
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "http://localhost:8888/api/users/2/transactions",
+							"raw": "http://{{url}}:{{port}}/api/users/2/transactions",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"users",
@@ -202,14 +211,17 @@
 						},
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "http://localhost:8888/api/users/2/accounts/5540241215/transactions",
+							"raw": "http://{{url}}:{{port}}/api/users/2/accounts/5540241215/transactions",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"users",
@@ -231,14 +243,17 @@
 						},
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "http://localhost:8888/api/users/2/accounts/5540241215/transactions/page/2",
+							"raw": "http://{{url}}:{{port}}/api/users/2/accounts/5540241215/transactions/page/2",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"users",
@@ -272,12 +287,12 @@
 							"raw": "{\n\t\"id\": 0,\n\t\"amount\": 99.99,\n\t\"categoryName\": \"test category\",\n\t\"date\": \"\",\n\t\"description\": \"Test transaction\",\n\t\"reference\": \"\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8888/api/users/2/accounts/5540241215/transactions",
+							"raw": "http://{{url}}:{{port}}/api/users/2/accounts/5540241215/transactions",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"users",
@@ -298,10 +313,10 @@
 							"listen": "test",
 							"script": {
 								"id": "2a68079c-8165-4d3c-969a-f0b651c40c97",
-								"type": "text/javascript",
 								"exec": [
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -321,12 +336,12 @@
 							"raw": "{\n    \"id\": 19,\n    \"amount\": 11.11,\n    \"categoryName\": \"test category edited\",\n    \"date\": \"\",\n    \"description\": \"Test transaction edited\",\n    \"reference\": \"\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8888/api/users/2/accounts/5540241215/transactions/19",
+							"raw": "http://{{url}}:{{port}}/api/users/2/accounts/5540241215/transactions/19",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"users",
@@ -351,12 +366,12 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:8888/api/users/2/accounts/5540241215/transactions/19",
+							"raw": "http://{{url}}:{{port}}/api/users/2/accounts/5540241215/transactions/19",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8888",
+							"port": "{{port}}",
 							"path": [
 								"api",
 								"users",
@@ -373,6 +388,195 @@
 				}
 			],
 			"description": "Transactions related REST endpoint testing"
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "addUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 0,\n\t\"name\": \"robertux\",\n\t\"password\": \"prueba\",\n\t\"status\": \"A\"\n}"
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/api/users/",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						},
+						"description": "Add user"
+					},
+					"response": []
+				},
+				{
+					"name": "editUser",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 0,\n\t\"name\": \"robertux\",\n\t\"password\": \"prueba\",\n\t\"status\": \"A\"\n}"
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/api/users/13",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"13"
+							]
+						},
+						"description": "Edit user"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/api/users/19",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"19"
+							]
+						},
+						"description": "Delete user"
+					},
+					"response": []
+				},
+				{
+					"name": "getUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/api/users/13",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"13"
+							]
+						},
+						"description": "Get user info"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Session",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"robertux\",\n    \"password\": \"prueba\"\n}"
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/api/session/login",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"session",
+								"login"
+							]
+						},
+						"description": "logs in"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/api/session/2/logout",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"session",
+								"2",
+								"logout"
+							]
+						},
+						"description": "logs out"
+					},
+					"response": []
+				}
+			],
+			"description": "session"
 		}
 	]
 }
