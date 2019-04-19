@@ -11,6 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="sessions")
 public class Session {
+	public static int SESSION_MAX_INACTIVE_SECS = 5;
 	
 	@Id
 	private String id;

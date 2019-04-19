@@ -1,5 +1,6 @@
 package org.robertux.financeAnalytics.server.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.robertux.financeAnalytics.server.data.LoginCredentials;
@@ -38,10 +39,10 @@ public class SessionController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		
-		user.get().setPassword("");
 		Session session = new Session(user.get().getId());
 		sessionsRepo.save(session);
 		
+		user.get().setPassword("");
 		HttpHeaders headers= new HttpHeaders();
 		headers.add("Authorization", "Bearer " + session.getId());
 		
@@ -51,7 +52,13 @@ public class SessionController {
 	@PostMapping(path="/session/{userId}/logout", produces=MediaType.ALL_VALUE)
 	public ResponseEntity<?> logout(@PathVariable("userId") long userId) {
 		
-		sessionsRepo.findByUserId(userId).forEach(s -> sessionsRepo.delete(s));
+		List<Session> sessions = sessionsRepo.findByUserId(userId);
+		
+		if (sessions.isEmpty()) {
+			return ResponseEntity.badRequest().body("No active session for user");
+		} else {
+			sessions.forEach(s -> sessionsRepo.delete(s));
+		}
 		return ResponseEntity.ok().build();
 	}
 }
