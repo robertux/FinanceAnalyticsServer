@@ -3,11 +3,14 @@ package org.robertux.financeAnalytics.server.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.robertux.financeAnalytics.server.data.LoginCredentials;
 import org.robertux.financeAnalytics.server.data.entities.Session;
 import org.robertux.financeAnalytics.server.data.entities.User;
 import org.robertux.financeAnalytics.server.data.repositories.SessionsRepository;
 import org.robertux.financeAnalytics.server.data.repositories.UsersRepository;
+import org.robertux.financeAnalytics.server.security.CryptoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,15 +30,18 @@ public class SessionController {
 	@Autowired
 	private SessionsRepository sessionsRepo;
 	
+	@Autowired
+	private CryptoService cryptoService;
+	
 	@PostMapping(path="/session/login", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> login(@RequestBody LoginCredentials login) {
+	public ResponseEntity<User> login(@Valid @RequestBody LoginCredentials login) {
 		Optional<User> user = usersRepo.findByName(login.getName());
 		
 		if (!user.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		if (!usersRepo.isValid(login.getPassword(), user.get().getPassword())) {
+		if (!cryptoService.isValid(login.getPassword(), user.get().getPassword())) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		

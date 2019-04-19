@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.robertux.financeAnalytics.server.data.entities.User;
 import org.robertux.financeAnalytics.server.data.repositories.UsersRepository;
+import org.robertux.financeAnalytics.server.security.CryptoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,16 @@ public class UsersController {
 	@Autowired
 	private UsersRepository usersRepo;
 	
+	@Autowired
+	private CryptoService cryptoService;
+	
 	@PostMapping(path="/users/", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addUser(@Valid @RequestBody User user) {
 		if (usersRepo.findByName(user.getName()).isPresent()) {
 			return ResponseEntity.badRequest().body("Ya existe un usuario con este nombre");
 		}
 		
-		user.setPassword(usersRepo.encrypt(user.getPassword()));
+		user.setPassword(cryptoService.encrypt(user.getPassword()));
 		User newUser = usersRepo.save(user);
 		newUser.setPassword("");
 		
@@ -64,7 +68,7 @@ public class UsersController {
 		editedUser.setStatus(user.getStatus());
 		
 		if (!user.getPassword().isEmpty()) {
-			editedUser.setPassword(usersRepo.encrypt(user.getPassword()));
+			editedUser.setPassword(cryptoService.encrypt(user.getPassword()));
 		}
 		
 		User updatedUser = usersRepo.save(editedUser);
