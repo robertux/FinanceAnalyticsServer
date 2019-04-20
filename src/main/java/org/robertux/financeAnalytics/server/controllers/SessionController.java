@@ -20,10 +20,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
+@RequestMapping("/session")
 public class SessionController {
+	private String AUTH_PREFIX = "Bearer ";
 
 	@Autowired
 	private UsersRepository usersRepo;
@@ -37,7 +40,7 @@ public class SessionController {
 	@Autowired
 	private JWTService jwtService;
 	
-	@PostMapping(path="/session/login", produces=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path="/login", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> login(@Valid @RequestBody LoginCredentials login) {
 		Optional<User> user = usersRepo.findByName(login.getName());
 		
@@ -54,12 +57,12 @@ public class SessionController {
 		
 		user.get().setPassword("");
 		HttpHeaders headers= new HttpHeaders();
-		headers.add("Authorization", "Bearer " + session.getId());
+		headers.add(HttpHeaders.AUTHORIZATION, AUTH_PREFIX + session.getId());
 		
 		return new ResponseEntity<User>(user.get(), headers, HttpStatus.OK);
 	}
 	
-	@PostMapping(path="/session/{userId}/logout", produces=MediaType.ALL_VALUE)
+	@PostMapping(path="/{userId}/logout", produces=MediaType.ALL_VALUE)
 	public ResponseEntity<?> logout(@PathVariable("userId") long userId) {
 		
 		List<Session> sessions = sessionsRepo.findByUserId(userId);

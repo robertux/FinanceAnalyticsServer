@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.robertux.financeAnalytics.server.data.validators.ValidCurrency;
@@ -28,15 +29,18 @@ public class Transaction implements Serializable {
 	public static final String CATEGORY_DEFAULT = "DEFAULT";
 
 	@Id
+	@NotBlank
 	private String id;
 
 	@NotNull
 	private BigDecimal amount;
 
 	@Column(name="category_name")
+	@NotBlank
 	private String categoryName;
 
 	@Column(name="date_time")
+	@NotNull
 	private Date date;
 
 	private String description;
@@ -46,7 +50,8 @@ public class Transaction implements Serializable {
 	@ValidCurrency
 	private String currency;
 
-	@Column(name="account_number") @Min(value = 0)
+	@Column(name="account_number") 
+	@Min(value = 0)
 	private long accountNumber;
 	
 	@ValidTransactionStatus
@@ -69,7 +74,7 @@ public class Transaction implements Serializable {
 
 	public void setAmount(BigDecimal amount) {
 		//Se asegura que los montos de las transacciones sean de dos decimales
-		this.amount = amount.setScale(2, RoundingMode.HALF_EVEN);
+		this.amount = amount != null? amount.setScale(2, RoundingMode.HALF_EVEN): amount;
 	}
 
 	public String getCategoryName() {
