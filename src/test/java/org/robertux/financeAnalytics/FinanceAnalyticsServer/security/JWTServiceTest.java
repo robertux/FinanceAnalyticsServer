@@ -12,14 +12,14 @@ import io.jsonwebtoken.Claims;
 
 public class JWTServiceTest {
 	private JWTService jwtService;
-	private String userName;
+	private long userId;
 
 	@Before
 	public void setUp() throws Exception {
 		this.jwtService = new JWTService();
 		this.jwtService.setIssuer("robertux");
 		this.jwtService.setKeyValue("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2JlcnR1eCIsImV4cCI6MTU1NTcwMDA4NCwiaXNzIjoib3JnLnJvYmVydHV4In0.TyINltn0QyT6-L9np7_uy-FmkmuSDz9CVLPe21PlyidlRPiBq0QMqIgAdEjJdV3P3t5QbMy5Fb8sdRiS_dFa1AOiJyb2JlcnR1eCIsImV4cCI6MTU1NTcwMDA4NCwiaXNzIjoib3JnLnJvYmVydHV4InbGA4t5z");
-		this.userName = "robertux";
+		this.userId = 1;
 	}
 
 	@After
@@ -29,10 +29,10 @@ public class JWTServiceTest {
 
 	@Test
 	public void test() {
-		String token = this.jwtService.generateToken(this.userName);
+		String token = this.jwtService.generateToken(this.userId);
 		Claims result = this.jwtService.verifyToken(token);
 		assertNotNull("Resultado no debe ser nulo", result);
-		assertEquals("Resultado debe coincidir con el nombre del usuario", this.userName, result.getSubject());
+		assertEquals("Resultado debe coincidir con el Id del usuario", String.valueOf(this.userId), result.getSubject());
 	}
 
 }

@@ -1,6 +1,5 @@
 package org.robertux.financeAnalytics.server.security;
 
-import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
@@ -20,8 +19,8 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JWTService {
-
-	public static final Charset UTF8 = Charset.defaultCharset();
+	public static final String AUTH_PREFIX = "Bearer ";
+	public static final int DEFAULT_EXPIRY_SECONDS = 300;
 	
 	private Logger logger = LogManager.getLogger(this.getClass());
 	
@@ -31,11 +30,11 @@ public class JWTService {
 	@Value("${org.robertux.jwt.issuer}")
 	private String issuer;
 	
-	public String generateToken(String userName) throws JwtException, IllegalArgumentException {
-		Date expires = Date.from(LocalDateTime.now(ZoneOffset.UTC).plusSeconds(10).toInstant(ZoneOffset.UTC));
+	public String generateToken(long userId) throws JwtException, IllegalArgumentException {
+		Date expires = Date.from(LocalDateTime.now(ZoneOffset.UTC).plusSeconds(DEFAULT_EXPIRY_SECONDS).toInstant(ZoneOffset.UTC));
 		SecretKey key = Keys.hmacShaKeyFor(keyValue.getBytes());
 		
-		return Jwts.builder().setSubject(userName).setExpiration(expires)
+		return Jwts.builder().setSubject(String.valueOf(userId)).setExpiration(expires)
 				.setIssuer(issuer).signWith(key).compact();
 	}
 	

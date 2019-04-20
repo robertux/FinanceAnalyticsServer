@@ -27,6 +27,18 @@ public class UsersController {
 	@Autowired
 	private CryptoService cryptoService;
 	
+	@GetMapping(path="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getUser(@PathVariable("userId") long userId) {
+		Optional<User> user = usersRepo.findById(userId);
+		
+		if (user.isPresent()) {
+			user.get().setPassword("");
+			return ResponseEntity.ok(user.get());
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
 	@PostMapping(path="/users/", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addUser(@Valid @RequestBody User user) {
 		if (usersRepo.findByName(user.getName()).isPresent()) {
@@ -38,18 +50,6 @@ public class UsersController {
 		newUser.setPassword("");
 		
 		return ResponseEntity.ok(newUser);
-	}
-	
-	@GetMapping(path="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> getUser(@PathVariable("userId") long userId) {
-		Optional<User> user = usersRepo.findById(userId);
-		
-		if (user.isPresent()) {
-			user.get().setPassword("");
-			return ResponseEntity.ok(user.get());
-		} else {
-			return ResponseEntity.notFound().build();
-		}
 	}
 	
 	@PutMapping(path="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)

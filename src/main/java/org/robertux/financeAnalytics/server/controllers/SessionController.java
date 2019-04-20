@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 @RequestMapping("/session")
 public class SessionController {
-	private String AUTH_PREFIX = "Bearer ";
 
 	@Autowired
 	private UsersRepository usersRepo;
@@ -52,12 +51,12 @@ public class SessionController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		
-		Session session = new Session(jwtService.generateToken(user.get().getName()), user.get().getId());
+		Session session = new Session(jwtService.generateToken(user.get().getId()), user.get().getId());
 		sessionsRepo.save(session);
 		
 		user.get().setPassword("");
 		HttpHeaders headers= new HttpHeaders();
-		headers.add(HttpHeaders.AUTHORIZATION, AUTH_PREFIX + session.getId());
+		headers.add(HttpHeaders.AUTHORIZATION, JWTService.AUTH_PREFIX + session.getId());
 		
 		return new ResponseEntity<User>(user.get(), headers, HttpStatus.OK);
 	}
@@ -72,6 +71,7 @@ public class SessionController {
 		} else {
 			sessions.forEach(s -> sessionsRepo.delete(s));
 		}
+		
 		return ResponseEntity.ok().build();
 	}
 }
