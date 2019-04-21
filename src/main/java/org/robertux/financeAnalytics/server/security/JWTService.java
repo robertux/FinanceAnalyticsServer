@@ -20,7 +20,6 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JWTService {
 	public static final String AUTH_PREFIX = "Bearer ";
-	public static final int DEFAULT_EXPIRY_SECONDS = 300;
 	
 	private Logger logger = LogManager.getLogger(this.getClass());
 	
@@ -30,8 +29,11 @@ public class JWTService {
 	@Value("${org.robertux.jwt.issuer}")
 	private String issuer;
 	
+	@Value("${org.robertux.jwt.expiry}")
+	private Integer expiry;
+	
 	public String generateToken(long userId) throws JwtException, IllegalArgumentException {
-		Date expires = Date.from(LocalDateTime.now(ZoneOffset.UTC).plusSeconds(DEFAULT_EXPIRY_SECONDS).toInstant(ZoneOffset.UTC));
+		Date expires = Date.from(LocalDateTime.now(ZoneOffset.UTC).plusSeconds(expiry).toInstant(ZoneOffset.UTC));
 		SecretKey key = Keys.hmacShaKeyFor(keyValue.getBytes());
 		
 		return Jwts.builder().setSubject(String.valueOf(userId)).setExpiration(expires)
@@ -64,5 +66,13 @@ public class JWTService {
 
 	public void setIssuer(String issuer) {
 		this.issuer = issuer;
+	}
+	
+	public Integer getExpiry() {
+		return expiry;
+	}
+	
+	public void setExpiry(Integer expiry) {
+		this.expiry = expiry;
 	}
 }

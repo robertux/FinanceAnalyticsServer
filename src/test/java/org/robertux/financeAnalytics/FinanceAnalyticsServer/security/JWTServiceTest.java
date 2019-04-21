@@ -19,6 +19,7 @@ public class JWTServiceTest {
 		this.jwtService = new JWTService();
 		this.jwtService.setIssuer("robertux");
 		this.jwtService.setKeyValue("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2JlcnR1eCIsImV4cCI6MTU1NTcwMDA4NCwiaXNzIjoib3JnLnJvYmVydHV4In0.TyINltn0QyT6-L9np7_uy-FmkmuSDz9CVLPe21PlyidlRPiBq0QMqIgAdEjJdV3P3t5QbMy5Fb8sdRiS_dFa1AOiJyb2JlcnR1eCIsImV4cCI6MTU1NTcwMDA4NCwiaXNzIjoib3JnLnJvYmVydHV4InbGA4t5z");
+		this.jwtService.setExpiry(600);
 		this.userId = 1;
 	}
 
