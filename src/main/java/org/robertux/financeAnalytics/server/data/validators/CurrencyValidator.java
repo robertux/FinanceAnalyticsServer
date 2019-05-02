@@ -12,7 +12,7 @@ public class CurrencyValidator implements ConstraintValidator<ValidCurrency, Str
 		try {
 			Currency.getInstance(value);
 			return true;
-		} catch (IllegalArgumentException ex) {
+		} catch (IllegalArgumentException | NullPointerException ex) {
 			return false;
 		}
 	}

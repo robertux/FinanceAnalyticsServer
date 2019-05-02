@@ -25,6 +25,7 @@ public class AccountValidationTest extends DataValidationTest {
 		account.setAlias("acc");
 		account.setBalance(BigDecimal.ZERO);
 		account.setType(AccountType.SAVINGS.getCode());
+		account.setCurrency("USD");
 	}
 
 	@After

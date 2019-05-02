@@ -21,7 +21,7 @@ public class Category implements Serializable {
 
 	@Id
 	@NotBlank
-	@Length(max="30")
+	@Size(max=20)
 	private String name;
 
 	public Category() {

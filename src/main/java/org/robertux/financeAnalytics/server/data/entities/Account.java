@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.robertux.financeAnalytics.server.data.validators.ValidAccountType;
+import org.robertux.financeAnalytics.server.data.validators.ValidCurrency;
 
 
 /**

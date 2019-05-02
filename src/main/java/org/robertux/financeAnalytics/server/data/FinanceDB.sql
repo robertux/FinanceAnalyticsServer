@@ -22,7 +22,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 CREATE TABLE public.categories (
-    name character varying(30) NOT NULL
+    name character varying(20) NOT NULL
 );
 
 ALTER TABLE public.categories OWNER TO "financeUser";

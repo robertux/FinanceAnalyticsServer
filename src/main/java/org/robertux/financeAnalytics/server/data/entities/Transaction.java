@@ -38,7 +38,7 @@ public class Transaction implements Serializable {
 
 	@Column(name="category_name")
 	@NotBlank
-	@Size(max="20")
+	@Size(max=20)
 	private String categoryName;
 
 	@Column(name="date_time")
@@ -46,13 +46,13 @@ public class Transaction implements Serializable {
 	private Date date;
 
 	@NotNull
-	@Size(max="50")
+	@Size(max=50)
 	private String title;
 
-	@Size(max="255")
+	@Size(max=255)
 	private String description;
 
-	@Size(max="20")
+	@Size(max=20)
 	private String reference;
 	
 	@ValidCurrency

@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +19,7 @@ import org.robertux.financeAnalytics.server.data.entities.Transaction;
 
 public class TransactionValidationTest extends DataValidationTest {
 	private Transaction trans;
+	private Logger logger;
 
 	@Before
 	public void setUp() throws Exception {
@@ -28,6 +31,9 @@ public class TransactionValidationTest extends DataValidationTest {
 		trans.setCurrency("USD");
 		trans.setStatus(TransactionStatus.APPLIED.getCode());
 		trans.setDate(new Date());
+		trans.setTitle("trans title");
+		
+		logger = LogManager.getLogger(this.getClass());
 	}
 
 	@After
@@ -38,6 +44,7 @@ public class TransactionValidationTest extends DataValidationTest {
 	@Test
 	public void testValid() {
 		Set<ConstraintViolation<Transaction>> violations = this.validator.validate(this.trans);
+		violations.forEach(v -> logger.debug(v.getConstraintDescriptor().getAnnotation() + " " + v.getMessage() + " " + v.getInvalidValue()));
 		assertEquals("No deben existir errores de validacion", 0, violations.size());
 	}
 

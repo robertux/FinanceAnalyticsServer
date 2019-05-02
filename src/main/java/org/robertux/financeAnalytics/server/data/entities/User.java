@@ -29,10 +29,10 @@ public class User implements Serializable {
 	private Long id;
 
 	@NotBlank
-	@Length(max="255")
+	@Size(max=255)
 	private String name;
 
-	@Size(max="255")
+	@Size(max=255)
 	private String password;
 
 	@ValidUserStatus
