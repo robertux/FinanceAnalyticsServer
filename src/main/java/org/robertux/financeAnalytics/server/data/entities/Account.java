@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.robertux.financeAnalytics.server.data.validators.ValidAccountType;
 
@@ -27,14 +28,19 @@ public class Account implements Serializable {
 	private Long number;
 
 	@NotBlank
+	@Size(max=50)
 	private String alias;
 
 	@ValidAccountType
 	private String type;
 
-	@Column(name="user_id") @Min(value = 0)
+	@Column(name="user_id") 
+	@Min(value = 0)
 	private long userId;
 	
+	@ValidCurrency
+	private String currency;
+
 	@NotNull
 	private BigDecimal balance;
 
@@ -74,6 +80,14 @@ public class Account implements Serializable {
 		this.userId = userId;
 	}
 	
+	public String getCurrency() {
+		return this.currency;
+	}
+	
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
 	public BigDecimal getBalance() {
 		return this.balance;
 	}

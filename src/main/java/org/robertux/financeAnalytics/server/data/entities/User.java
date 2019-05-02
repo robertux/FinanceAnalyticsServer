@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.robertux.financeAnalytics.server.data.validators.ValidUserStatus;
 
@@ -27,12 +28,14 @@ public class User implements Serializable {
 	@Min(value = 0)
 	private Long id;
 
-	@NotBlank(message = "User name must not be blank")
+	@NotBlank
+	@Length(max="255")
 	private String name;
 
+	@Size(max="255")
 	private String password;
 
-	@ValidUserStatus(message = "Status must be valid")
+	@ValidUserStatus
 	private String status;
 
 	public User() {

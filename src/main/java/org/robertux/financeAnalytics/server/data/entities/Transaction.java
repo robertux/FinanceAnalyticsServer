@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.robertux.financeAnalytics.server.data.validators.ValidCurrency;
 import org.robertux.financeAnalytics.server.data.validators.ValidTransactionStatus;
@@ -37,14 +38,21 @@ public class Transaction implements Serializable {
 
 	@Column(name="category_name")
 	@NotBlank
+	@Size(max="20")
 	private String categoryName;
 
 	@Column(name="date_time")
 	@NotNull
 	private Date date;
 
+	@NotNull
+	@Size(max="50")
+	private String title;
+
+	@Size(max="255")
 	private String description;
 
+	@Size(max="20")
 	private String reference;
 	
 	@ValidCurrency
@@ -93,6 +101,14 @@ public class Transaction implements Serializable {
 	public void setDate(Date date) {
 		//Se asegura que si la fecha viene vacía, se asigne la fecha y hora actual
 		this.date = date == null? new Date(): date;
+	}
+
+	public String getTitle() {
+		return this.title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {

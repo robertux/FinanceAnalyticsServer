@@ -21,6 +21,12 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
+CREATE TABLE public.categories (
+    name character varying(30) NOT NULL
+);
+
+ALTER TABLE public.categories OWNER TO "financeUser";
+
 --
 -- TOC entry 181 (class 1259 OID 90282)
 -- Name: accounts; Type: TABLE; Schema: public; Owner: postgres
@@ -28,9 +34,10 @@ SET default_with_oids = false;
 
 CREATE TABLE public.accounts (
     number bigint NOT NULL,
-    alias character varying(50),
+    alias character varying(50) NOT NULL,
     type character varying(5) DEFAULT 'SAV'::character varying NOT NULL,
     balance numeric(10,2) DEFAULT 0.0 NOT NULL,
+    currency character varying(3) DEFAULT 'USD'::character varying NOT NULL,
     user_id bigint NOT NULL
 );
 
@@ -60,11 +67,12 @@ CREATE TABLE public.transactions (
     id character varying(100) DEFAULT 'TRNID'::character varying NOT NULL,
     amount numeric(10,2) NOT NULL,
     account_number bigint NOT NULL,
-    reference character varying(50),
+    reference character varying(20),
+    title character varying(50) NOT NULL,
     description character varying(255),
     category_name character varying(20) DEFAULT 'GENERAL'::character varying,
     date_time timestamp with time zone DEFAULT now() NOT NULL,
-    currency character varying(5) DEFAULT 'USD'::character varying NOT NULL,
+    currency character varying(3) DEFAULT 'USD'::character varying NOT NULL,
     status character varying(2) DEFAULT 'A'::character varying NOT NULL
 );
 
@@ -126,6 +134,10 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 SELECT pg_catalog.setval('public.users_id_seq', 1, true);
 
+
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT category_pkey PRIMARY KEY (name);
 
 --
 -- TOC entry 2269 (class 2606 OID 90305)
