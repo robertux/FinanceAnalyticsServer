@@ -3,13 +3,17 @@ package org.robertux.financeAnalytics.server.data.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,46 +30,52 @@ import org.robertux.financeAnalytics.server.data.validators.ValidTransactionStat
 @Table(name="transactions")
 public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	public static final String CATEGORY_DEFAULT = "DEFAULT";
+	
+	private DateFormat dFormat;
 
 	@Id
-	@NotBlank
+	@NotBlank(message = "ID must not be null")
 	private String id;
 
-	@NotNull
+	@NotNull(message = "Amount must not be null")
 	private BigDecimal amount;
 
 	@Column(name="category_name")
-	@NotBlank
-	@Size(max=20)
+	@NotBlank(message = "Category must not be blank")
+	@Size(max=20, message = "Category must not be greater than 20 characters")
 	private String categoryName;
 
 	@Column(name="date_time")
-	@NotNull
+	@NotNull(message = "Dte must not be null")
 	private Date date;
+	
+	@Transient
+	private String dateStr;
 
-	@NotNull
-	@Size(max=50)
+	@NotNull(message = "Title must not be null")
+	@Size(max=50, message = "Title must not be greater than 50 characters")
 	private String title;
 
-	@Size(max=255)
+	@Size(max=255, message = "Description must not be greater than 255 characters")
 	private String description;
 
-	@Size(max=20)
+	@Size(max=20, message = "Reference must not be greater tan 20 characters")
 	private String reference;
 	
-	@ValidCurrency
+	@ValidCurrency(message = "Currency must be valid")
 	private String currency;
-
-	@Column(name="account_number") 
-	@Min(value = 0)
-	private long accountNumber;
 	
-	@ValidTransactionStatus
+	@NotNull(message = "Account must not be null")
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "account_number", nullable = false, updatable = false, insertable = false)
+	private Account account;
+	
+	@ValidTransactionStatus(message = "Transaction status must be valid")
 	private String status;
 
 	public Transaction() {
+		this.dFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
 	}
 
 	public String getId() {
@@ -101,6 +111,16 @@ public class Transaction implements Serializable {
 	public void setDate(Date date) {
 		//Se asegura que si la fecha viene vacía, se asigne la fecha y hora actual
 		this.date = date == null? new Date(): date;
+		
+		this.setDateStr(this.dFormat.format(this.date));
+	}
+
+	public String getDateStr() {
+		return dateStr;
+	}
+
+	public void setDateStr(String dateStr) {
+		this.dateStr = dateStr;
 	}
 
 	public String getTitle() {
@@ -135,12 +155,12 @@ public class Transaction implements Serializable {
 		this.currency = currency;
 	}
 
-	public long getAccountNumber() {
-		return this.accountNumber;
+	public Account getAccount() {
+		return this.account;
 	}
 
-	public void setAccountNumber(long accountNumber) {
-		this.accountNumber = accountNumber;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public String getStatus() {

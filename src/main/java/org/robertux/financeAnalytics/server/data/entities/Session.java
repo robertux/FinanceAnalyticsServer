@@ -15,15 +15,15 @@ import javax.validation.constraints.NotNull;
 public class Session {
 	
 	@Id
-	@NotBlank
+	@NotBlank(message = "ID must not be blank")
 	private String id;
 	
 	@Column(name="user_id")
-	@Min(value = 0)
+	@Min(value = 0, message = "User ID must ge greater or equal to zero")
 	private long userId;
 	
 	@Column(name="created_at")
-	@NotNull
+	@NotNull(message = "Created At must not be null")
 	private Date createdAt;
 	
 	public Session() {

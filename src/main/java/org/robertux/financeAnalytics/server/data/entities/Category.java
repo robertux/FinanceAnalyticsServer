@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -20,8 +19,8 @@ public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@NotBlank
-	@Size(max=20)
+	@NotBlank(message = "Name must not be blank")
+	@Size(max=20, message = "Name must not be greater than 20 characters")
 	private String name;
 
 	public Category() {

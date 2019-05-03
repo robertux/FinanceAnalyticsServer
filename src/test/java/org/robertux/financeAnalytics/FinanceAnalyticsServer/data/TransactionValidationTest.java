@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.robertux.financeAnalytics.server.data.TransactionStatus;
+import org.robertux.financeAnalytics.server.data.entities.Account;
 import org.robertux.financeAnalytics.server.data.entities.Transaction;
 
 public class TransactionValidationTest extends DataValidationTest {
@@ -25,7 +26,7 @@ public class TransactionValidationTest extends DataValidationTest {
 	public void setUp() throws Exception {
 		trans = new Transaction();
 		trans.setId("abc");
-		trans.setAccountNumber(1l);
+		trans.setAccount(new Account());
 		trans.setAmount(BigDecimal.ONE);
 		trans.setCategoryName("transcat");
 		trans.setCurrency("USD");
@@ -74,7 +75,7 @@ public class TransactionValidationTest extends DataValidationTest {
 	
 	@Test
 	public void testInvalidAccountNumber() {
-		trans.setAccountNumber(-1l);
+		trans.setAccount(null);
 		
 		Set<ConstraintViolation<Transaction>> violations = this.validator.validate(this.trans);
 		assertNotEquals("Cuenta debe ser invalida", 0l, violations.size());

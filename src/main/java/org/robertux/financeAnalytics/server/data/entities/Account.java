@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,24 +26,27 @@ import org.robertux.financeAnalytics.server.data.validators.ValidCurrency;
 public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id @Min(value = 0)
+	@Id @Min(value = 0, message = "Account number must be greater or equal to zero")
 	private Long number;
+	
+	@Transient
+	private String numberMask;
 
-	@NotBlank
-	@Size(max=50)
+	@NotBlank(message = "Alias must not be blank")
+	@Size(max=50, message = "Alias must not be greater than 50 characters")
 	private String alias;
 
-	@ValidAccountType
+	@ValidAccountType(message = "Type must be valid")
 	private String type;
 
 	@Column(name="user_id") 
-	@Min(value = 0)
+	@Min(value = 0, message = "User ID must be greater or equal to zero")
 	private long userId;
 	
-	@ValidCurrency
+	@ValidCurrency(message = "Currency must be valid")
 	private String currency;
 
-	@NotNull
+	@NotNull(message = "Balance must not be null")
 	private BigDecimal balance;
 
 	public Account() {
@@ -55,6 +59,21 @@ public class Account implements Serializable {
 
 	public void setNumber(Long number) {
 		this.number = number;
+		
+		if (number == 0 || number == null) {
+			this.setNumberMask("****");
+		} else {
+			String numberStr = number.toString();
+			this.setNumberMask("****".concat(numberStr.length() > 4? numberStr.substring(numberStr.length() - 4): numberStr));
+		}
+	}
+
+	public String getNumberMask() {
+		return numberMask;
+	}
+
+	public void setNumberMask(String numberMask) {
+		this.numberMask = numberMask;
 	}
 
 	public String getAlias() {

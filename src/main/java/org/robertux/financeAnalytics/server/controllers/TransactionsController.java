@@ -1,6 +1,7 @@
 package org.robertux.financeAnalytics.server.controllers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -65,23 +66,25 @@ public class TransactionsController {
 	
 	@PostMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addTransaction(@Valid @RequestBody Transaction trn, @PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber) {
-		if (!accRepo.findByAccNumberAndUserId(accountNumber, userId).isPresent()) {
+		Optional<Account> acc = accRepo.findByAccNumberAndUserId(accountNumber, userId);
+		if (!acc.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		trn.setAccountNumber(accountNumber);
+		trn.setAccount(acc.get());
 		Transaction newTrn = trnRepo.save(trn);
 		return ResponseEntity.ok(newTrn);
 	}
 	
 	@PutMapping(path="/users/{userId}/accounts/{accNumber}/transactions/{trnId}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> editTransaction(@Valid @RequestBody Transaction trn, @PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber, @PathVariable("trnId") long trnId) {
-		if (!accRepo.findByAccNumberAndUserId(accountNumber, userId).isPresent()) {
+		Optional<Account> acc = accRepo.findByAccNumberAndUserId(accountNumber, userId);
+		if (!acc.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		
 		if (trnRepo.findById(trn.getId()).isPresent()) {
-			trn.setAccountNumber(accountNumber);
+			trn.setAccount(acc.get());
 			Transaction newTrn = trnRepo.save(trn);
 			return ResponseEntity.ok(newTrn);
 		} else {
