@@ -20,7 +20,7 @@ public class UserValidationTest extends DataValidationTest {
 	public void setUp() throws Exception {
 		user = new User();
 		user.setId(1l);
-		user.setName("test");
+		user.setName("test1");
 		user.setPassword("password");
 		user.setStatus(UserStatus.ACTIVE.getCode());
 	}
@@ -33,7 +33,7 @@ public class UserValidationTest extends DataValidationTest {
 	@Test
 	public void testValid() {
 		Set<ConstraintViolation<User>> violations = this.validator.validate(this.user);
-		assertEquals("No deben existir errores de validacion", 0, violations.size());
+		assertEquals("No deben existir errores de validacion: " + violations.stream().map(v -> v.getMessage()).reduce("", String::concat), 0, violations.size());
 	}
 
 	@Test

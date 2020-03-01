@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.robertux.financeAnalytics.server.data.AccountStatus;
 import org.robertux.financeAnalytics.server.data.AccountType;
 import org.robertux.financeAnalytics.server.data.entities.Account;
 
@@ -26,6 +27,7 @@ public class AccountValidationTest extends DataValidationTest {
 		account.setBalance(BigDecimal.ZERO);
 		account.setType(AccountType.SAVINGS.getCode());
 		account.setCurrency("USD");
+		account.setStatus(AccountStatus.ACTIVE.getCode());
 	}
 
 	@After
@@ -36,7 +38,7 @@ public class AccountValidationTest extends DataValidationTest {
 	@Test
 	public void testValid() {
 		Set<ConstraintViolation<Account>> violations = this.validator.validate(this.account);
-		assertEquals("No deben existir errores de validacion", 0, violations.size());
+		assertEquals("No deben existir errores de validacion: " + violations.stream().map(v -> v.getMessage()).reduce("", String::concat), 0, violations.size());
 	}
 	
 	@Test

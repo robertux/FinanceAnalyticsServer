@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.robertux.financeAnalytics.server.data.SessionStatus;
 import org.robertux.financeAnalytics.server.data.entities.Session;
 
 public class SessionValidationTest extends DataValidationTest {
@@ -22,6 +23,7 @@ public class SessionValidationTest extends DataValidationTest {
 		this.session.setId("abc");
 		this.session.setUserId(1l);
 		this.session.setCreatedAt(new Date());
+		this.session.setStatus(SessionStatus.ACTIVE.getCode());
 	}
 
 	@After
@@ -32,7 +34,7 @@ public class SessionValidationTest extends DataValidationTest {
 	@Test
 	public void testValid() {
 		Set<ConstraintViolation<Session>> violations = this.validator.validate(this.session);
-		assertEquals("No deben existir errores de validacion", 0, violations.size());
+		assertEquals("No deben existir errores de validacion: " + violations.stream().map(v -> v.getMessage()).reduce("", String::concat), 0, violations.size());
 	}
 	
 	@Test
