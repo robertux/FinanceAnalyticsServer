@@ -10,6 +10,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.robertux.financeAnalytics.server.data.validators.ValidSessionStatus;
+
 @Entity
 @Table(name="sessions")
 public class Session {
@@ -25,6 +27,9 @@ public class Session {
 	@Column(name="created_at")
 	@NotNull(message = "Created At must not be null")
 	private Date createdAt;
+	
+	@ValidSessionStatus
+	private String status;
 	
 	public Session() {
 		
@@ -53,5 +58,16 @@ public class Session {
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Session [id=" + id + ", userId=" + userId + ", createdAt=" + createdAt + ", status=" + status + "]";
 	}
 }

@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.robertux.financeAnalytics.server.data.validators.ValidAccountStatus;
 import org.robertux.financeAnalytics.server.data.validators.ValidAccountType;
 import org.robertux.financeAnalytics.server.data.validators.ValidCurrency;
 
@@ -48,9 +49,24 @@ public class Account implements Serializable {
 
 	@NotNull(message = "Balance must not be null")
 	private BigDecimal balance;
+	
+	@ValidAccountStatus
+	private String status;
 
 	public Account() {
 		
+	}
+
+	public Account(Long number, String numberMask, String alias, String type, long userId, String currency, BigDecimal balance, String status) {
+		super();
+		this.number = number;
+		this.numberMask = numberMask;
+		this.alias = alias;
+		this.type = type;
+		this.userId = userId;
+		this.currency = currency;
+		this.balance = balance;
+		this.status = status;
 	}
 
 	public Long getNumber() {
@@ -114,5 +130,18 @@ public class Account implements Serializable {
 	
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Account [number=" + number + ", numberMask=" + numberMask + ", alias=" + alias + ", type=" + type + ", userId=" + userId + ", currency=" + currency + ", balance=" + balance + ", status=" + status + "]";
 	}
 }

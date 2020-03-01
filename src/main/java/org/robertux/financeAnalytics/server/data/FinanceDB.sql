@@ -38,7 +38,8 @@ CREATE TABLE public.accounts (
     type character varying(5) DEFAULT 'SAV'::character varying NOT NULL,
     balance numeric(10,2) DEFAULT 0.0 NOT NULL,
     currency character varying(3) DEFAULT 'USD'::character varying NOT NULL,
-    user_id bigint NOT NULL
+    user_id bigint NOT NULL,
+    status character varying(1) NOT NULL
 );
 
 
@@ -52,7 +53,8 @@ ALTER TABLE public.accounts OWNER TO "financeUser";
 CREATE TABLE public.sessions (
     id character varying(250) NOT NULL,
     user_id bigint NOT NULL,
-    created_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    status character varying(1) NOT NULL
 );
 
 

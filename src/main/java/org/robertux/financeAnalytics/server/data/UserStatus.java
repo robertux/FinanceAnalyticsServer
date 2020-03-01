@@ -19,6 +19,6 @@ public class UserStatus extends KeyValue {
 	
 	@JsonIgnore 
 	public UserStatus[] getAll() {
-		return new UserStatus[] {ACTIVE, INACTIVE};
+		return new UserStatus[] {ACTIVE, INACTIVE, SUSPENDED};
 	}
 }
