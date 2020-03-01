@@ -30,7 +30,6 @@ import org.robertux.financeAnalytics.server.data.validators.ValidTransactionStat
 @Table(name="transactions")
 public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public static final String CATEGORY_DEFAULT = "DEFAULT";
 	
 	private DateFormat dFormat;
 
@@ -47,7 +46,7 @@ public class Transaction implements Serializable {
 	private String categoryName;
 
 	@Column(name="date_time")
-	@NotNull(message = "Dte must not be null")
+	@NotNull(message = "Date must not be null")
 	private Date date;
 	
 	@Transient
@@ -101,7 +100,7 @@ public class Transaction implements Serializable {
 
 	public void setCategoryName(String categoryName) {
 		//Se asegura que si la categoría viene vacía, se asigne una por defecto
-		this.categoryName = (categoryName == null || categoryName.trim().isEmpty()? CATEGORY_DEFAULT: categoryName);
+		this.categoryName = (categoryName == null || categoryName.trim().isEmpty()? Category.CATEGORY_DEFAULT: categoryName);
 	}
 
 	public Date getDate() {

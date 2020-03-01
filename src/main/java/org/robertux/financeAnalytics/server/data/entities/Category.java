@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 @Table(name="categories")
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static final String CATEGORY_DEFAULT = "DEFAULT";
 
 	@Id
 	@NotBlank(message = "Name must not be blank")
