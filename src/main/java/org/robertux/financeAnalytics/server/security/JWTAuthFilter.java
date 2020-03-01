@@ -10,6 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.robertux.financeAnalytics.server.data.SessionStatus;
 import org.robertux.financeAnalytics.server.data.entities.Session;
 import org.robertux.financeAnalytics.server.data.repositories.SessionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-
-import io.jsonwebtoken.Claims;
 
 @Component
 public class JWTAuthFilter extends GenericFilterBean {
@@ -42,23 +41,14 @@ public class JWTAuthFilter extends GenericFilterBean {
 		}
 		
 		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
 		
-		//Si el request contiene el header Authorization y su valor contiene el prefix Bearer...
-		if (authorization != null && authorization.startsWith(JWTService.AUTH_PREFIX)) {
-			String token = authorization.replaceAll(JWTService.AUTH_PREFIX, "");
-			Claims claims = jwtService.verifyToken(token);
-			
-			//Si el token es valido y contiene el atributo Subject...
-			if (claims != null && claims.getSubject() != null && !claims.getSubject().isEmpty()) {
-				Optional<Session> session = sessionsRepo.findById(token);
-				
-				//Si el token corresponde con el Id de una sesion activa y el subject corresponde con el userId de la sesion entonces dejar pasar
-				if (session.isPresent() && String.valueOf(session.get().getUserId()).equals(claims.getSubject())) {
-					chain.doFilter(request, response);
-					return;
-				}
-			}
+		//Si el token corresponde con el Id de una sesion activa entonces dejar pasar
+		if (session.isPresent() && SessionStatus.ACTIVE.getCode().equals(session.get().getStatus())) {
+			chain.doFilter(request, response);
+			return;
 		}
+		
 		
 		resp.setStatus(HttpStatus.UNAUTHORIZED.value());
 		resp.getWriter().write("Missing or invalid JSON Web Token");

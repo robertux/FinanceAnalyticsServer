@@ -51,6 +51,25 @@ public class JWTService {
 			return null;
 		}
 	}
+	
+	public String getSessionId(String authorization) {
+		//Si el request no contiene el header Authorization o su valor no contiene el prefix Bearer...
+		if (authorization == null || !authorization.startsWith(JWTService.AUTH_PREFIX)) {
+			this.logger.warn("Authorization header {} is null or doesnt have auth prefix", authorization);
+			return null;
+		}
+		
+		String token = authorization.replaceAll(JWTService.AUTH_PREFIX, "");
+		Claims claims = this.verifyToken(token);
+		
+		//Si el token no es valido o no contiene el atributo Subject...
+		if (claims == null || claims.getSubject() == null || claims.getSubject().isEmpty()) {
+			this.logger.warn("Auth token {} has empty claims", token);
+			return null;
+		}
+		
+		return claims.getSubject();
+	}
 
 	public String getKeyValue() {
 		return keyValue;
