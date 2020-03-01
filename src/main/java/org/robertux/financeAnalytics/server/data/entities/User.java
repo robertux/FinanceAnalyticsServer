@@ -29,10 +29,10 @@ public class User implements Serializable {
 	private Long id;
 
 	@NotBlank
-	@Size(max=255)
+	@Size(min=5, max=255, message="Name must be between 5 and 255 characters")
 	private String name;
 
-	@Size(max=255)
+	@Size(min=5, max=255, message="Password must be between 5 and 255 characters")
 	private String password;
 
 	@ValidUserStatus
@@ -41,6 +41,14 @@ public class User implements Serializable {
 	public User() {
 	}
 
+	public User(Long id, String name, String password, String status) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.status = status;
+	}
+	
 	public Long getId() {
 		return this.id;
 	}
@@ -71,5 +79,10 @@ public class User implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", password=****, status=" + status + "]";
 	}
 }

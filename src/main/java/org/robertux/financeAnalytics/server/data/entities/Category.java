@@ -23,6 +23,11 @@ public class Category implements Serializable {
 	@NotBlank(message = "Name must not be blank")
 	@Size(max=20, message = "Name must not be greater than 20 characters")
 	private String name;
+	
+	public Category(String name) {
+		super();
+		this.name = name;
+	}
 
 	public Category() {
 	}
@@ -33,5 +38,10 @@ public class Category implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [name=" + name + "]";
 	}
 }
