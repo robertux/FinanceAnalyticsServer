@@ -2,13 +2,19 @@ package org.robertux.financeAnalytics.server.controllers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.robertux.financeAnalytics.server.data.AccountType;
 import org.robertux.financeAnalytics.server.data.entities.Account;
+import org.robertux.financeAnalytics.server.data.entities.Session;
 import org.robertux.financeAnalytics.server.data.repositories.AccountsRepository;
+import org.robertux.financeAnalytics.server.data.repositories.SessionsRepository;
+import org.robertux.financeAnalytics.server.security.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,37 +25,52 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController("/accounts")
 public class AccountsController {
+	
+	@Autowired
+	private JWTService jwtService;
+	
+	@Autowired
+	private SessionsRepository sessionsRepo;
 	
 	@Autowired
 	private AccountsRepository accRepo;
 
-	@GetMapping(path="/users/{userId}/accounts", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Account>> getAccounts(@PathVariable("userId") long userId) {
-		return ResponseEntity.ok(accRepo.findAllByUserId(userId));
+	@GetMapping(path="/", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Account>> getAccounts(HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		return ResponseEntity.ok(accRepo.findAllByUserId(session.get().getUserId()));
 	}
 	
-	@GetMapping(path="/accounts/types", produces=MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path="/types", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AccountType>> getAccountTypes() {
 		return ResponseEntity.ok(Arrays.asList(AccountType.SAVINGS.getAll()));
 	}
 	
-	@PostMapping(path="/users/{userId}/accounts", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> addAccount(@Valid @RequestBody Account acc, @PathVariable("userId") long userId) {
-		if (accRepo.findByAccNumberAndUserId(acc.getNumber(), userId).isPresent()) {
+	@PostMapping(path="/", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> addAccount(@Valid @RequestBody Account acc, HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		if (accRepo.findByAccNumberAndUserId(acc.getNumber(), session.get().getUserId()).isPresent()) {
 			return ResponseEntity.badRequest().body("Ya existe una cuenta con este número");
 		} else {
-			acc.setUserId(userId);
+			acc.setUserId(session.get().getUserId());
 			Account newAcc = accRepo.save(acc);
 			return ResponseEntity.ok(newAcc);
 		}
 	}
 	
-	@PutMapping(path="/users/{userId}/accounts/{accNumber}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> editAccount(@Valid @RequestBody Account acc, @PathVariable("userId") long userId, @PathVariable("accNumber") long accNumber) {
-		if (accRepo.findByAccNumberAndUserId(acc.getNumber(), userId).isPresent()) {
-			acc.setUserId(userId);
+	@PutMapping(path="/{accNumber}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> editAccount(@Valid @RequestBody Account acc, @PathVariable("accNumber") long accNumber, HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		if (accRepo.findByAccNumberAndUserId(acc.getNumber(), session.get().getUserId()).isPresent()) {
+			acc.setUserId(session.get().getUserId());
 			Account newAcc = accRepo.save(acc);
 			return ResponseEntity.ok(newAcc);
 		} else {
@@ -57,9 +78,12 @@ public class AccountsController {
 		}
 	}
 	
-	@DeleteMapping("/users/{userId}/accounts/{accNumber}")
-	public ResponseEntity<?> deleteAccount(@PathVariable("userId") long userId, @PathVariable("accNumber") long accNumber) {
-		if (accRepo.findByAccNumberAndUserId(accNumber, userId).isPresent()) {
+	@DeleteMapping("/{accNumber}")
+	public ResponseEntity<?> deleteAccount(@PathVariable("accNumber") long accNumber, HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		if (accRepo.findByAccNumberAndUserId(accNumber, session.get().getUserId()).isPresent()) {
 			accRepo.deleteById(accNumber);
 			return ResponseEntity.ok().build();
 		} else {

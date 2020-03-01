@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.robertux.financeAnalytics.server.data.SessionStatus;
 import org.robertux.financeAnalytics.server.data.validators.ValidSessionStatus;
 
 @Entity
@@ -39,6 +40,7 @@ public class Session {
 		this.userId = userId;
 		this.id = id;
 		this.createdAt = new Date();
+		this.status = SessionStatus.ACTIVE.getCode();
 	}
 	
 	public String getId() {

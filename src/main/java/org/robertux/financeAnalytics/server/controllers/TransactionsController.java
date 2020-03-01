@@ -4,15 +4,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.robertux.financeAnalytics.server.data.entities.Account;
+import org.robertux.financeAnalytics.server.data.entities.Session;
 import org.robertux.financeAnalytics.server.data.entities.Transaction;
 import org.robertux.financeAnalytics.server.data.repositories.AccountsRepository;
+import org.robertux.financeAnalytics.server.data.repositories.SessionsRepository;
 import org.robertux.financeAnalytics.server.data.repositories.TransactionsRepository;
+import org.robertux.financeAnalytics.server.security.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,44 +34,65 @@ public class TransactionsController {
 	public static final PageRequest DEFAULT_PAGER = PageRequest.of(0, DEFAULT_PAGE_SIZE, Direction.DESC, "date");
 
 	@Autowired
+	private JWTService jwtService;
+	
+	@Autowired
+	private SessionsRepository sessionsRepo;
+	
+	@Autowired
 	private TransactionsRepository trnRepo;
 	
 	@Autowired
 	private AccountsRepository accRepo;
 
-	@GetMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Transaction>> getTransactions(@PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber) {
-		if (!accRepo.findByAccNumberAndUserId(accountNumber, userId).isPresent()) {
+	@GetMapping(path="/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Transaction>> getTransactions(@PathVariable("accNumber") long accountNumber, HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		if (!accRepo.findByAccNumberAndUserId(accountNumber, session.get().getUserId()).isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(trnRepo.findAllByAccountNum(accountNumber, DEFAULT_PAGER));
 	}
 	
-	@GetMapping(path="/users/{userId}/accounts/{accNumber}/transactions/page/{pageNum}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Transaction>> getTransactionsPaged(@PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber, @PathVariable("pageNum") int pageNum) {
-		if (!accRepo.findByAccNumberAndUserId(accountNumber, userId).isPresent()) {
+	@GetMapping(path="/accounts/{accNumber}/transactions/page/{pageNum}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Transaction>> getTransactionsPaged(@PathVariable("accNumber") long accountNumber, @PathVariable("pageNum") int pageNum, HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		if (!accRepo.findByAccNumberAndUserId(accountNumber, session.get().getUserId()).isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(trnRepo.findAllByAccountNum(accountNumber, PageRequest.of(pageNum, DEFAULT_PAGE_SIZE, Direction.DESC, "date")));
 	}
 	
-	@GetMapping(path="/users/{userId}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Transaction>> getAllTransactions(@PathVariable("userId") long userId) {
-		List<Account> accs = accRepo.findAllByUserId(userId);
+	@GetMapping(path="/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Transaction>> getAllTransactions(HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		List<Account> accs = accRepo.findAllByUserId(session.get().getUserId());
 		List<Long> accNums = accs.stream().map(acc -> acc.getNumber()).collect(Collectors.toList());
 		return ResponseEntity.ok(trnRepo.findAllByAccountNums(accNums, DEFAULT_PAGER));
 	}
 	
-	@GetMapping(path="/users/{userId}/transactions/page/{pageNum}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Transaction>> getAllTransactionsPaged(@PathVariable("userId") long userId, @PathVariable("pageNum") int pageNum) {
-		List<Account> accs = accRepo.findAllByUserId(userId);
+	@GetMapping(path="/transactions/page/{pageNum}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Transaction>> getAllTransactionsPaged(@PathVariable("pageNum") int pageNum, HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		List<Account> accs = accRepo.findAllByUserId(session.get().getUserId());
 		List<Long> accNums = accs.stream().map(acc -> acc.getNumber()).collect(Collectors.toList());
 		return ResponseEntity.ok(trnRepo.findAllByAccountNums(accNums, PageRequest.of(pageNum, DEFAULT_PAGE_SIZE, Direction.DESC, "date")));
 	}
 	
-	@PostMapping(path="/users/{userId}/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> addTransaction(@Valid @RequestBody Transaction trn, @PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber) {
-		Optional<Account> acc = accRepo.findByAccNumberAndUserId(accountNumber, userId);
+	@PostMapping(path="/accounts/{accNumber}/transactions", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> addTransaction(@Valid @RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber, HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		Optional<Account> acc = accRepo.findByAccNumberAndUserId(accountNumber, session.get().getUserId());
 		if (!acc.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
@@ -76,9 +102,12 @@ public class TransactionsController {
 		return ResponseEntity.ok(newTrn);
 	}
 	
-	@PutMapping(path="/users/{userId}/accounts/{accNumber}/transactions/{trnId}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> editTransaction(@Valid @RequestBody Transaction trn, @PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber, @PathVariable("trnId") long trnId) {
-		Optional<Account> acc = accRepo.findByAccNumberAndUserId(accountNumber, userId);
+	@PutMapping(path="/accounts/{accNumber}/transactions/{trnId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> editTransaction(@Valid @RequestBody Transaction trn, @PathVariable("accNumber") long accountNumber, @PathVariable("trnId") long trnId, HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		Optional<Account> acc = accRepo.findByAccNumberAndUserId(accountNumber, session.get().getUserId());
 		if (!acc.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
@@ -92,9 +121,12 @@ public class TransactionsController {
 		}
 	}
 	
-	@DeleteMapping("/users/{userId}/accounts/{accNumber}/transactions/{trnId}")
-	public ResponseEntity<?> deleteTransaction(@PathVariable("userId") long userId, @PathVariable("accNumber") long accountNumber, @PathVariable("trnId") String trnId) {
-		if (!accRepo.findByAccNumberAndUserId(accountNumber, userId).isPresent()) {
+	@DeleteMapping("/accounts/{accNumber}/transactions/{trnId}")
+	public ResponseEntity<?> deleteTransaction(@PathVariable("accNumber") long accountNumber, @PathVariable("trnId") String trnId, HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
+		
+		if (!accRepo.findByAccNumberAndUserId(accountNumber, session.get().getUserId()).isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		

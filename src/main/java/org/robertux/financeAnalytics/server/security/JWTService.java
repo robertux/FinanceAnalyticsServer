@@ -32,11 +32,11 @@ public class JWTService {
 	@Value("${org.robertux.jwt.expiry}")
 	private Integer expiry;
 	
-	public String generateToken(long userId) throws JwtException, IllegalArgumentException {
+	public String generateToken(String sessionId) throws JwtException, IllegalArgumentException {
 		Date expires = Date.from(LocalDateTime.now(ZoneOffset.UTC).plusSeconds(expiry).toInstant(ZoneOffset.UTC));
 		SecretKey key = Keys.hmacShaKeyFor(keyValue.getBytes());
 		
-		return Jwts.builder().setSubject(String.valueOf(userId)).setExpiration(expires)
+		return Jwts.builder().setSubject(String.valueOf(sessionId)).setExpiration(expires)
 				.setIssuer(issuer).signWith(key).compact();
 	}
 	

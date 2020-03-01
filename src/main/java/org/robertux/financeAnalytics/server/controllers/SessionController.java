@@ -1,11 +1,13 @@
 package org.robertux.financeAnalytics.server.controllers;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.robertux.financeAnalytics.server.data.LoginCredentials;
+import org.robertux.financeAnalytics.server.data.SessionStatus;
 import org.robertux.financeAnalytics.server.data.entities.Session;
 import org.robertux.financeAnalytics.server.data.entities.User;
 import org.robertux.financeAnalytics.server.data.repositories.SessionsRepository;
@@ -17,7 +19,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,8 +52,9 @@ public class SessionController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		
-		Session session = new Session(jwtService.generateToken(user.get().getId()), user.get().getId());
+		Session session = new Session(UUID.randomUUID().toString(), user.get().getId());
 		sessionsRepo.save(session);
+		jwtService.generateToken(session.getId());
 		
 		user.get().setPassword("");
 		HttpHeaders headers= new HttpHeaders();
@@ -61,16 +63,19 @@ public class SessionController {
 		return new ResponseEntity<User>(user.get(), headers, HttpStatus.OK);
 	}
 	
-	@PostMapping(path="/{userId}/logout", produces=MediaType.ALL_VALUE)
-	public ResponseEntity<?> logout(@PathVariable("userId") long userId) {
+	@PostMapping(path="/logout", produces=MediaType.ALL_VALUE)
+	public ResponseEntity<?> logout(HttpServletRequest req) {
+		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
+		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
 		
-		List<Session> sessions = sessionsRepo.findByUserId(userId);
-		
-		if (sessions.isEmpty()) {
-			return ResponseEntity.badRequest().body("No active session for user");
-		} else {
-			sessions.forEach(s -> sessionsRepo.delete(s));
+		if (!session.isPresent()) {
+			return ResponseEntity.badRequest().body("No active session found");
 		}
+		
+		Session s = session.get();
+		s.setStatus(SessionStatus.INACTIVE.getCode());
+		sessionsRepo.save(s);
+		
 		
 		return ResponseEntity.ok().build();
 	}

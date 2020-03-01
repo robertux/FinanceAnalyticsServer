@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController("/users")
 public class UsersController {
 
 	@Autowired
@@ -27,7 +27,7 @@ public class UsersController {
 	@Autowired
 	private CryptoService cryptoService;
 	
-	@GetMapping(path="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path="/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getUser(@PathVariable("userId") long userId) {
 		Optional<User> user = usersRepo.findById(userId);
 		
@@ -39,7 +39,7 @@ public class UsersController {
 		}
 	}
 	
-	@PostMapping(path="/users/", produces=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path="/", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addUser(@Valid @RequestBody User user) {
 		if (usersRepo.findByName(user.getName()).isPresent()) {
 			return ResponseEntity.badRequest().body("Ya existe un usuario con este nombre");
@@ -52,7 +52,7 @@ public class UsersController {
 		return ResponseEntity.ok(newUser);
 	}
 	
-	@PutMapping(path="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(path="/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> editUser(@Valid @RequestBody User user, @PathVariable("userId") long userId) {
 		if (!usersRepo.findById(userId).isPresent()) {
 			return ResponseEntity.notFound().build();
@@ -77,7 +77,7 @@ public class UsersController {
 		return ResponseEntity.ok(updatedUser);
 	}
 	
-	@DeleteMapping(path="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(path="/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> delUser(@PathVariable("userId") long userId) {
 		if (!usersRepo.findById(userId).isPresent()) {
 			return ResponseEntity.notFound().build();
