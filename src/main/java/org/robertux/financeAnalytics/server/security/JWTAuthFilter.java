@@ -41,17 +41,27 @@ public class JWTAuthFilter extends GenericFilterBean {
 		}
 		
 		String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
-		Optional<Session> session = sessionsRepo.findById(jwtService.getSessionId(authorization));
-		
-		//Si el token corresponde con el Id de una sesion activa entonces dejar pasar
-		if (session.isPresent() && SessionStatus.ACTIVE.getCode().equals(session.get().getStatus())) {
-			chain.doFilter(request, response);
+		if (authorization == null || authorization.trim().isEmpty()) {
+			resp.setStatus(HttpStatus.UNAUTHORIZED.value());
+			resp.getWriter().write("Missing or invalid Authorization header");
 			return;
 		}
 		
+		String sessionId = jwtService.getSessionId(authorization);
+		if (sessionId == null || sessionId.trim().isEmpty()) {
+			resp.setStatus(HttpStatus.UNAUTHORIZED.value());
+			resp.getWriter().write("Invalid JSON Web Token");
+			return;
+		}
 		
-		resp.setStatus(HttpStatus.UNAUTHORIZED.value());
-		resp.getWriter().write("Missing or invalid JSON Web Token");
+		Optional<Session> session = sessionsRepo.findById(sessionId);
+		if (!session.isPresent() || !SessionStatus.ACTIVE.getCode().equals(session.get().getStatus())) {
+			resp.setStatus(HttpStatus.UNAUTHORIZED.value());
+			resp.getWriter().write("Invalid session");
+			return;
+		}
+		
+		chain.doFilter(request, response);
 	}
 
 }
