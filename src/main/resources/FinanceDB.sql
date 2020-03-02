@@ -53,7 +53,9 @@ ALTER TABLE public.accounts OWNER TO "financeUser";
 CREATE TABLE public.sessions (
     id character varying(250) NOT NULL,
     user_id bigint NOT NULL,
+    user_ip character varying(255),
     created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone,
     status character varying(1) DEFAULT 'A'::character varying NOT NULL
 );
 

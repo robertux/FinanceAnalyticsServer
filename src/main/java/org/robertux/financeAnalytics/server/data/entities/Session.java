@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.robertux.financeAnalytics.server.data.SessionStatus;
 import org.robertux.financeAnalytics.server.data.validators.ValidSessionStatus;
@@ -25,9 +26,16 @@ public class Session {
 	@Min(value = 0, message = "User ID must ge greater or equal to zero")
 	private long userId;
 	
+	@Column(name="user_ip")
+	@Size(min=0, max=255, message="User IP must be between 0 and 255 characters")
+	private String userIp;
+	
 	@Column(name="created_at")
 	@NotNull(message = "Created At must not be null")
 	private Date createdAt;
+	
+	@Column(name="updated_at")
+	private Date updatedAt;
 	
 	@ValidSessionStatus
 	private String status;
@@ -55,11 +63,23 @@ public class Session {
 	public void setUserId(long userId) {
 		this.userId = userId;
 	}
+	public String getUserIp() {
+		return userIp;
+	}
+	public void setUserIp(String userIp) {
+		this.userIp = userIp;
+	}
 	public Date getCreatedAt() {
 		return createdAt;
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	public String getStatus() {
 		return status;
@@ -70,6 +90,6 @@ public class Session {
 
 	@Override
 	public String toString() {
-		return "Session [id=" + id + ", userId=" + userId + ", createdAt=" + createdAt + ", status=" + status + "]";
+		return "Session [id=" + id + ", userId=" + userId + ", userIp=" + userIp + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", status=" + status + "]";
 	}
 }

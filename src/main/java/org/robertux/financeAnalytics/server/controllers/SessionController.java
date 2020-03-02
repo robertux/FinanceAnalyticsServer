@@ -1,5 +1,6 @@
 package org.robertux.financeAnalytics.server.controllers;
 
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ public class SessionController {
 	private JWTService jwtService;
 	
 	@PostMapping(path="/login", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> login(@Valid @RequestBody LoginCredentials login) {
+	public ResponseEntity<User> login(@Valid @RequestBody LoginCredentials login, HttpServletRequest req) {
 		Optional<User> user = usersRepo.findByName(login.getName());
 		
 		if (!user.isPresent()) {
@@ -53,6 +54,7 @@ public class SessionController {
 		}
 		
 		Session session = new Session(UUID.randomUUID().toString(), user.get().getId());
+		session.setUserIp(req.getRemoteAddr());
 		sessionsRepo.save(session);
 		String token = jwtService.generateToken(session.getId());
 		
@@ -74,6 +76,7 @@ public class SessionController {
 		
 		Session s = session.get();
 		s.setStatus(SessionStatus.INACTIVE.getCode());
+		s.setUpdatedAt(new Date());
 		sessionsRepo.save(s);
 		
 		
