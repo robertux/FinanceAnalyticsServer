@@ -39,7 +39,7 @@ CREATE TABLE public.accounts (
     balance numeric(10,2) DEFAULT 0.0 NOT NULL,
     currency character varying(3) DEFAULT 'USD'::character varying NOT NULL,
     user_id bigint NOT NULL,
-    status character varying(1) NOT NULL
+    status character varying(1) DEFAULT 'A'::character varying NOT NULL
 );
 
 
@@ -54,7 +54,7 @@ CREATE TABLE public.sessions (
     id character varying(250) NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    status character varying(1) NOT NULL
+    status character varying(1) DEFAULT 'A'::character varying NOT NULL
 );
 
 
