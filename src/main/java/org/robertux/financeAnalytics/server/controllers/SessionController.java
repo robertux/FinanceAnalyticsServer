@@ -54,11 +54,11 @@ public class SessionController {
 		
 		Session session = new Session(UUID.randomUUID().toString(), user.get().getId());
 		sessionsRepo.save(session);
-		jwtService.generateToken(session.getId());
+		String token = jwtService.generateToken(session.getId());
 		
 		user.get().setPassword("");
 		HttpHeaders headers= new HttpHeaders();
-		headers.add(HttpHeaders.AUTHORIZATION, JWTService.AUTH_PREFIX + session.getId());
+		headers.add(HttpHeaders.AUTHORIZATION, JWTService.AUTH_PREFIX + token);
 		
 		return new ResponseEntity<User>(user.get(), headers, HttpStatus.OK);
 	}
