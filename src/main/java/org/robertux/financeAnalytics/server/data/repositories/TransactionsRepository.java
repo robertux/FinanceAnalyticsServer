@@ -10,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface TransactionsRepository extends CrudRepository<Transaction, String> {
 
-	@Query("SELECT t FROM Transaction t WHERE t.accountNumber = :accountNumber")
+	@Query("SELECT t FROM Transaction t WHERE t.account.number = :accountNumber")
 	public List<Transaction> findAllByAccountNum(@Param("accountNumber") long accountNumber, Pageable pg);
 	
-	@Query("SELECT t FROM Transaction t WHERE t.accountNumber in :accNums")
+	@Query("SELECT t FROM Transaction t WHERE t.account.number in :accNums")
 	public List<Transaction> findAllByAccountNums(@Param("accNums") List<Long> accNums, Pageable pg);
 }
